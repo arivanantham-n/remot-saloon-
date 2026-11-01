@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How the Marketplace Operates — Glö Salon</title>
+  <meta name="description" content="Seamless bridge connecting clients with verified local salon owners for premium at-home beauty and grooming services.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/next-step-arrows.css">
+</head>
+<body>
+
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Premium Salon</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Services</a></li>
+      <li><a href="how-it-works.html" class="active">How It Works</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="salon-register.html">For Salons</a></li>
+      <li><a href="my-bookings.html" id="nav-bookings-link" style="display:none">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout</button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a>
+  <a href="how-it-works.html">How It Works</a>
+  <a href="booking.html">Book Now</a>
+  <a href="salon-register.html">For Salons</a>
+  <a href="login.html">Login</a>
+</div>
+
+<div style="height:72px;"></div>
+
+<!-- ═══ HERO / TITLE SECTION ══════════════════════════════════════════ -->
+<section class="section text-center" style="padding-top:4rem;padding-bottom:2.5rem;position:relative;overflow:hidden;">
+  <div class="parallax-layer parallax-layer-1" style="background:radial-gradient(circle at 50% 20%, rgba(139,92,246,0.15), transparent 70%);"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div style="display:inline-block;padding:0.35rem 1.15rem;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);border-radius:100px;font-size:0.75rem;font-weight:700;letter-spacing:1px;color:var(--accent-purple);text-transform:uppercase;margin-bottom:1.25rem;">
+      THE PLATFORM ARCHITECTURE
+    </div>
+
+    <h1 style="font-size:3.2rem;font-weight:900;line-height:1.15;letter-spacing:-1px;margin-bottom:1rem;color:var(--text-100);">
+      How the Marketplace Operates
+    </h1>
+    
+    <p style="font-size:1.2rem;color:var(--text-70);max-width:680px;margin:0 auto 3rem;line-height:1.6;">
+      Seamless bridge connecting clients with verified local salon owners.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ 3-STEP MARKETPLACE WORKFLOW CARDS ═════════════════════════════ -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;">
+
+      <!-- Card 01 -->
+      <div class="glass-card fade-in" style="padding:2.5rem 2rem;border-radius:var(--radius-lg);position:relative;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));">
+        <div style="width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg, #8B5CF6, #6C3CE9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.25rem;font-weight:900;margin-bottom:1.75rem;box-shadow:0 8px 24px rgba(139,92,246,0.35);">
+          01
+        </div>
+        <h3 style="font-size:1.4rem;font-weight:800;margin-bottom:1rem;color:var(--text-100);">
+          Client Booking Request
+        </h3>
+        <p style="font-size:0.95rem;color:var(--text-70);line-height:1.7;">
+          Clients browse unisex services, select their preferred slot, and place an order on the platform.
+        </p>
+      </div>
+
+      <!-- Card 02 -->
+      <div class="glass-card fade-in" style="padding:2.5rem 2rem;border-radius:var(--radius-lg);position:relative;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));">
+        <div style="width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg, #A78BFA, #7C3AED);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.25rem;font-weight:900;margin-bottom:1.75rem;box-shadow:0 8px 24px rgba(167,139,250,0.35);">
+          02
+        </div>
+        <h3 style="font-size:1.4rem;font-weight:800;margin-bottom:1rem;color:var(--text-100);">
+          Nearby Salon Routing
+        </h3>
+        <p style="font-size:0.95rem;color:var(--text-70);line-height:1.7;">
+          The platform algorithm instantly routes the order to the closest registered partner salon within their service radius (e.g. 5km).
+        </p>
+      </div>
+
+      <!-- Card 03 -->
+      <div class="glass-card fade-in" style="padding:2.5rem 2rem;border-radius:var(--radius-lg);position:relative;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));">
+        <div style="width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg, #F59E0B, #D4AF37);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.25rem;font-weight:900;margin-bottom:1.75rem;box-shadow:0 8px 24px rgba(245,158,11,0.35);">
+          03
+        </div>
+        <h3 style="font-size:1.4rem;font-weight:800;margin-bottom:1rem;color:var(--text-100);">
+          At-Home Execution
+        </h3>
+        <p style="font-size:0.95rem;color:var(--text-70);line-height:1.7;">
+          The salon owner dispatches a verified top stylist with sanitized kits to deliver the grooming session at the client's home.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Next Step CTA -->
+    <div class="custom-next-step-wrapper" style="margin-top:2.5rem;">
+      <a href="#ecosystem-section" class="custom-next-step-btn">
+        <span>Explore the Ecosystem</span>
+        <span class="custom-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Next Step Arrow: Workflow → Ecosystem ─── -->
+<div class="custom-section-arrow">
+  <a href="#ecosystem-section" class="custom-arrow-icon" title="Marketplace Ecosystem">↓</a>
+</div>
+
+<!-- ═══ DEEP DIVE: END-TO-END ECOSYSTEM ═══════════════════════════════ -->
+<section id="ecosystem-section" class="section" style="background:rgba(255,255,255,0.01);border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);">
+  <div class="container">
+    <div style="text-center;margin-bottom:3.5rem;" class="text-center">
+      <span class="section-label">MARKETPLACE ECOSYSTEM</span>
+      <h2 class="section-title">Designed for <span class="gradient-text">Both Clients & Salon Partners</span></h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;">
+
+      <!-- For Clients -->
+      <div class="glass-card fade-in" style="padding:2.5rem;border-left:4px solid var(--accent-gold);">
+        <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1.25rem;color:var(--accent-gold);display:flex;align-items:center;gap:0.75rem;">
+          <span>🛍️</span> For Clients
+        </h3>
+        <ul style="display:flex;flex-direction:column;gap:1rem;list-style:none;padding:0;color:var(--text-70);font-size:0.95rem;line-height:1.6;">
+          <li style="display:flex;gap:0.75rem;">
+            <span style="color:var(--accent-gold);font-weight:bold;">✓</span>
+            <span><strong>Transparent Pricing Matrix</strong>: Custom price calculation based on hair length, product brand (Normal/Premium/Luxury), and add-ons.</span>
+          </li>
+          <li style="display:flex;gap:0.75rem;">
+            <span style="color:var(--accent-gold);font-weight:bold;">✓</span>
+            <span><strong>Instant Razorpay Payment</strong>: Pay securely via UPI, GPay, Cards, or choose Pay at Salon upon service completion.</span>
+          </li>
+          <li style="display:flex;gap:0.75rem;">
+            <span style="color:var(--accent-gold);font-weight:bold;">✓</span>
+            <span><strong>Verified Professional Stylists</strong>: Certified, background-checked stylists dispatched directly to your doorstep.</span>
+          </li>
+          <li style="display:flex;gap:0.75rem;">
+            <span style="color:var(--accent-gold);font-weight:bold;">✓</span>
+            <span><strong>Live Order Tracking</strong>: Manage booking status, reschedule, or cancel anytime from your personal account.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- For Salon Owners -->
+      <div class="glass-card fade-in" style="padding:2.5rem;border-left:4px solid var(--accent-purple);">
+        <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1.25rem;color:var(--accent-purple);display:flex;align-items:center;gap:0.75rem;">
+          <span>💈</span> For Salon & Parlour Owners
+        </h3>
+        <ul style="display:flex;flex-direction:column;gap:1rem;list-style:none;padding:0;color:var(--text-70);font-size:0.95rem;line-height:1.6;">
+          <li style="display:flex;gap:0.75rem;">
+            <span style="color:var(--accent-purple);font-weight:bold;">✓</span>
+            <span><strong>Automatic Order Dispatch</strong>: Receive high-value remote bookings from clients within your 5km / 10km service zone.</span>
+          </li>
+          <li style="display:flex;gap:0.75rem;">
+            <span style="color:var(--accent-purple);font-weight:bold;">✓</span>
+            <span><strong>90% Payout Retention</strong>: Glö Salon charges only a transparent <strong>10% platform commission</strong> per completed booking.</span>
+          </li>
+          <li style="display:flex;gap:0.75rem;">
+            <span style="color:var(--accent-purple);font-weight:bold;">✓</span>
+            <span><strong>Full Catalog & Slot Control</strong>: Toggle Unisex, Men Only, or Women Only services and set custom availability schedules.</span>
+          </li>
+          <li style="display:flex;gap:0.75rem;">
+            <span style="color:var(--accent-purple);font-weight:bold;">✓</span>
+            <span><strong>Automated Settlements</strong>: Direct weekly payouts straight into your registered bank account.</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Next Step CTA -->
+    <div class="custom-next-step-wrapper" style="margin-top:2rem;">
+      <a href="#cta-how-section" class="custom-next-step-btn">
+        <span>Ready to Get Started?</span>
+        <span class="custom-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Next Step Arrow: Ecosystem → CTA ─── -->
+<div class="custom-section-arrow">
+  <a href="#cta-how-section" class="custom-arrow-icon" title="Get Started">↓</a>
+</div>
+
+<!-- ═══ CALL TO ACTION ════════════════════════════════════════════════ -->
+<section id="cta-how-section" class="section text-center" style="padding:5rem 0;">
+  <div class="container">
+    <div class="glass-card fade-in" style="padding:4rem 2rem;background:linear-gradient(135deg, rgba(139,92,246,0.1), rgba(212,175,55,0.08));border:1px solid rgba(212,175,55,0.25);">
+      <h2 style="font-size:2.5rem;font-weight:900;margin-bottom:1rem;color:var(--text-100);">
+        Ready to Experience <span class="gradient-text">Glö Salon?</span>
+      </h2>
+      <p style="font-size:1.1rem;color:var(--text-70);max-width:560px;margin:0 auto 2.25rem;line-height:1.6;">
+        Whether you are looking for top-rated salon grooming at home or want to grow your salon's revenue as a partner.
+      </p>
+      <div style="display:flex;gap:1.25rem;justify-content:center;flex-wrap:wrap;">
+        <a href="catalog.html" class="btn btn-primary btn-lg">Browse Services & Book</a>
+        <a href="salon-register.html" class="btn btn-secondary btn-lg">Register Your Salon (10% Fee)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Glö Salon Platform · How the Marketplace Operates</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+</body>
+</html>

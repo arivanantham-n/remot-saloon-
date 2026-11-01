@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings — Glö Salon</title>
+  <meta name="description" content="View your booking history, cancel upcoming appointments, and rebook your favorites.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Premium Salon</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Services</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="my-bookings.html" class="active" id="nav-bookings-link">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout</button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a><a href="booking.html">Book Now</a>
+  <a href="my-bookings.html">My Bookings</a><a href="login.html">Login</a>
+</div>
+
+<div style="height:72px;"></div>
+
+<section class="section" style="padding-top:3rem;min-height:calc(100vh - 72px);">
+  <div class="container" style="max-width:860px;">
+
+    <!-- Not logged in -->
+    <div id="auth-gate" class="hidden" style="text-align:center;padding:5rem 2rem;">
+      <div style="font-size:4rem;margin-bottom:1rem;">🔒</div>
+      <h2 style="margin-bottom:0.75rem;">Login Required</h2>
+      <p style="color:var(--text-70);margin-bottom:2rem;">Please login to view your booking history.</p>
+      <a href="login.html?redirect=my-bookings.html" class="btn btn-primary btn-lg">Login with OTP</a>
+    </div>
+
+    <!-- Bookings content -->
+    <div id="bookings-content">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <h1 style="font-size:1.8rem;margin-bottom:0.25rem;">My <span class="gradient-text">Bookings</span></h1>
+          <p style="color:var(--text-70);font-size:0.9rem;" id="bookings-count">Loading...</p>
+        </div>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+          <select id="status-filter" onchange="filterBookings()" style="width:auto;padding:0.6rem 1rem;font-size:0.875rem;">
+            <option value="">All Status</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <a href="catalog.html" class="btn btn-primary btn-sm">+ Book New</a>
+        </div>
+      </div>
+
+      <div id="bookings-loading" style="padding:1rem 0;">
+        <div class="skeleton-booking-card">
+          <div class="skeleton-booking-header">
+            <div class="skeleton-shimmer skeleton-title" style="width:40%;"></div>
+            <div class="skeleton-shimmer skeleton-badge"></div>
+          </div>
+          <div class="skeleton-shimmer skeleton-text" style="width:60%;"></div>
+          <div class="skeleton-shimmer skeleton-text short"></div>
+          <div class="skeleton-footer">
+            <div class="skeleton-shimmer skeleton-price"></div>
+            <div class="skeleton-shimmer skeleton-btn"></div>
+          </div>
+        </div>
+        <div class="skeleton-booking-card">
+          <div class="skeleton-booking-header">
+            <div class="skeleton-shimmer skeleton-title" style="width:40%;"></div>
+            <div class="skeleton-shimmer skeleton-badge"></div>
+          </div>
+          <div class="skeleton-shimmer skeleton-text" style="width:60%;"></div>
+          <div class="skeleton-shimmer skeleton-text short"></div>
+          <div class="skeleton-footer">
+            <div class="skeleton-shimmer skeleton-price"></div>
+            <div class="skeleton-shimmer skeleton-btn"></div>
+          </div>
+        </div>
+        <div class="skeleton-booking-card">
+          <div class="skeleton-booking-header">
+            <div class="skeleton-shimmer skeleton-title" style="width:40%;"></div>
+            <div class="skeleton-shimmer skeleton-badge"></div>
+          </div>
+          <div class="skeleton-shimmer skeleton-text" style="width:60%;"></div>
+          <div class="skeleton-shimmer skeleton-text short"></div>
+          <div class="skeleton-footer">
+            <div class="skeleton-shimmer skeleton-price"></div>
+            <div class="skeleton-shimmer skeleton-btn"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="bookings-list"></div>
+
+      <div id="empty-bookings" class="hidden" style="text-align:center;padding:4rem 2rem;">
+        <div style="font-size:3.5rem;margin-bottom:1rem;">📋</div>
+        <h3>No bookings yet</h3>
+        <p style="color:var(--text-70);margin:0.75rem 0;">Start by exploring our services and booking your first appointment!</p>
+        <a href="catalog.html" class="btn btn-primary" style="margin-top:1rem;">Browse Services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Review Modal -->
+<div id="review-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:1rem;">
+  <div class="glass-card" style="width:100%;max-width:420px;padding:2rem;">
+    <h3 style="margin-bottom:1rem;">Leave a Review ⭐</h3>
+    <input type="hidden" id="review-salon-id">
+    <input type="hidden" id="review-booking-id">
+    <div style="display:flex;gap:0.5rem;margin-bottom:1rem;" id="star-row">
+      <span onclick="setRating(1)" style="font-size:2rem;cursor:pointer;filter:grayscale(1);color:#ccc;" id="star-1">★</span>
+      <span onclick="setRating(2)" style="font-size:2rem;cursor:pointer;filter:grayscale(1);color:#ccc;" id="star-2">★</span>
+      <span onclick="setRating(3)" style="font-size:2rem;cursor:pointer;filter:grayscale(1);color:#ccc;" id="star-3">★</span>
+      <span onclick="setRating(4)" style="font-size:2rem;cursor:pointer;filter:grayscale(1);color:#ccc;" id="star-4">★</span>
+      <span onclick="setRating(5)" style="font-size:2rem;cursor:pointer;filter:grayscale(1);color:#ccc;" id="star-5">★</span>
+    </div>
+    <div class="form-group">
+      <label>Your Comment</label>
+      <textarea id="review-comment" placeholder="Share your experience..." rows="4"></textarea>
+    </div>
+    <div style="display:flex;gap:0.75rem;">
+      <button class="btn btn-primary" onclick="submitReview()">Submit Review</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeReviewModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container"><div class="footer-bottom"><span>© 2026 Glö Salon Platform</span></div></div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  let allBookings = [];
+  let selectedRating = 0;
+
+  async function loadBookings() {
+    if (!isLoggedIn()) {
+      document.getElementById('bookings-content').classList.add('hidden');
+      document.getElementById('auth-gate').classList.remove('hidden');
+      return;
+    }
+    try {
+      const data = await BookingsAPI.getMy();
+      allBookings = data.bookings || [];
+      document.getElementById('bookings-loading').classList.add('hidden');
+      document.getElementById('bookings-count').textContent = `${allBookings.length} booking${allBookings.length !== 1 ? 's' : ''} total`;
+      filterBookings();
+    } catch (err) {
+      document.getElementById('bookings-loading').innerHTML = `
+        <div style="color:var(--danger);padding:2rem;">Error loading bookings: ${err.message}</div>`;
+    }
+  }
+
+  function filterBookings() {
+    const status = document.getElementById('status-filter').value;
+    const filtered = status ? allBookings.filter(b => b.status === status) : allBookings;
+    renderBookings(filtered);
+  }
+
+  function renderBookings(bookings) {
+    const el = document.getElementById('bookings-list');
+    if (!bookings.length) {
+      el.innerHTML = '';
+      document.getElementById('empty-bookings').classList.remove('hidden');
+      return;
+    }
+    document.getElementById('empty-bookings').classList.add('hidden');
+    el.innerHTML = bookings.map(b => {
+      const statusColors = {
+        confirmed: 'badge-success',
+        completed: 'badge-primary',
+        cancelled: 'badge-danger',
+        pending:   'badge-warning'
+      };
+      return `
+      <div class="booking-card booking-status-${b.status} fade-in">
+        <div class="booking-card-header">
+          <div>
+            <div style="font-weight:800;font-size:1.05rem;">${b.service?.name || '—'}</div>
+            <div style="font-size:0.8rem;color:var(--text-70);margin-top:2px;">${b.salon?.name || '—'}</div>
+          </div>
+          <div style="text-align:right;">
+            <span class="badge ${statusColors[b.status] || 'badge-primary'}">${b.status}</span>
+            <div style="font-size:0.75rem;color:var(--text-50);margin-top:4px;">${b.bookingId}</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem;margin-bottom:1rem;font-size:0.83rem;">
+          <div><span style="color:var(--text-50);display:block;margin-bottom:2px;">📅 Date</span><strong>${formatDate(b.date)}</strong></div>
+          <div><span style="color:var(--text-50);display:block;margin-bottom:2px;">⏰ Time</span><strong>${b.timeSlot || '—'}</strong></div>
+          <div><span style="color:var(--text-50);display:block;margin-bottom:2px;">💰 Total</span><strong style="color:var(--primary);">${formatINR(b.totalPrice)}</strong></div>
+          <div><span style="color:var(--text-50);display:block;margin-bottom:2px;">✂️ Length</span><strong>${b.hairLength === 'N/A' ? '—' : b.hairLength}</strong></div>
+        </div>
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+          <a href="booking.html?serviceId=${b.service?._id||''}" class="btn btn-secondary btn-sm">Rebook</a>
+          ${b.status === 'confirmed' ? `<button class="btn btn-danger btn-sm" onclick="cancelBooking('${b._id}')">Cancel</button>` : ''}
+          ${b.status === 'completed' ? `<button class="btn btn-accent btn-sm" onclick="openReview('${b.salon?._id||''}','${b._id}')">Leave Review ★</button>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+    document.querySelectorAll('.fade-in:not(.visible)').forEach(el => setTimeout(() => el.classList.add('visible'), 50));
+  }
+
+  async function cancelBooking(id) {
+    if (!confirm('Are you sure you want to cancel this booking?')) return;
+    try {
+      await BookingsAPI.cancel(id);
+      showToast('Booking cancelled', 'info');
+      loadBookings();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
+  function openReview(salonId, bookingId) {
+    selectedRating = 0;
+    document.getElementById('review-salon-id').value = salonId;
+    document.getElementById('review-booking-id').value = bookingId;
+    document.getElementById('review-comment').value = '';
+    updateStars();
+    document.getElementById('review-modal').classList.remove('hidden');
+  }
+
+  function closeReviewModal() { document.getElementById('review-modal').classList.add('hidden'); }
+
+  function setRating(n) { selectedRating = n; updateStars(); }
+
+  function updateStars() {
+    for (let i = 1; i <= 5; i++) {
+      const star = document.getElementById(`star-${i}`);
+      star.style.filter = i <= selectedRating ? 'none' : 'grayscale(1)';
+      star.style.color  = i <= selectedRating ? '#F4B942' : '#ccc';
+    }
+  }
+
+  async function submitReview() {
+    if (!selectedRating) { showToast('Please select a rating', 'error'); return; }
+    try {
+      await ReviewsAPI.create({
+        salonId:   document.getElementById('review-salon-id').value,
+        bookingId: document.getElementById('review-booking-id').value,
+        rating:    selectedRating,
+        comment:   document.getElementById('review-comment').value
+      });
+      showToast('Review submitted! Thank you 🌟', 'success');
+      closeReviewModal();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  }
+
+  loadBookings();
+</script>
+</body>
+</html>

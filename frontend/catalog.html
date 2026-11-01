@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Catalog — Glö Salon</title>
+  <meta name="description" content="Browse all salon services for Women, Men and Unisex. Filter by category, sort by price or popularity.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/next-step-arrows.css">
+</head>
+<body>
+
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div>
+        <div class="nav-logo-text"><span>Gl</span><span>ö</span></div>
+        <span class="nav-logo-sub">Premium Salon</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html" class="active">Services</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="salon-register.html">For Salons</a></li>
+      <li><a href="my-bookings.html" id="nav-bookings-link" style="display:none">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout
+      </button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Now</a>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="salon-register.html">For Salons</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="login.html">Login</a>
+</div>
+
+<!-- ═══ CATALOG HEADER ══════════════════════════════════════════════ -->
+<div style="padding:120px 0 48px;background:linear-gradient(135deg,rgba(108,60,233,0.06),rgba(167,139,250,0.04));border-bottom:1px solid rgba(108,60,233,0.1);">
+  <div class="container text-center">
+    <span class="section-label">Full Catalog</span>
+    <h1 class="section-title">All Salon <span class="gradient-text">Services</span></h1>
+    <p class="section-subtitle">Transparent pricing, expert stylists, verified salons.</p>
+
+    <!-- Journey Flow Indicator -->
+    <div class="custom-flow-indicator" style="margin-top:1.5rem;">
+      <span class="custom-flow-step custom-flow-active">🔍 Browse</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step">✨ Select</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step">⚙️ Customize</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step">📅 Book</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FILTER & CATALOG ════════════════════════════════════════════ -->
+<section class="section" style="padding-top:2.5rem;">
+  <div class="container">
+
+    <!-- Category Tabs -->
+    <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+      <div class="tab-bar" id="category-tabs">
+        <button class="tab-btn active" data-cat="All"    onclick="setCategory('All',this)">All</button>
+        <button class="tab-btn" data-cat="Women"  onclick="setCategory('Women',this)">Women</button>
+        <button class="tab-btn" data-cat="Men"    onclick="setCategory('Men',this)">Men</button>
+        <button class="tab-btn" data-cat="Unisex" onclick="setCategory('Unisex',this)">Unisex</button>
+      </div>
+    </div>
+
+    <!-- Search + Sort -->
+    <div class="filter-bar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Search services..." oninput="filterServices()">
+      </div>
+      <select class="sort-select" id="sort-select" onchange="filterServices()">
+        <option value="">Sort: Default</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="popular">Most Popular</option>
+      </select>
+    </div>
+
+    <!-- Results count -->
+    <div style="margin-bottom:1.5rem;color:var(--text-70);font-size:0.875rem;font-weight:600;" id="results-count"></div>
+
+    <!-- Services Grid -->
+    <div class="service-grid" id="catalog-grid">
+      <!-- High-Performance Skeleton Loading Shimmer Placeholders -->
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-badge"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short"></div>
+        <div class="skeleton-tags">
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+        </div>
+        <div class="skeleton-footer">
+          <div class="skeleton-shimmer skeleton-price"></div>
+          <div class="skeleton-shimmer skeleton-btn"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-badge"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short"></div>
+        <div class="skeleton-tags">
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+        </div>
+        <div class="skeleton-footer">
+          <div class="skeleton-shimmer skeleton-price"></div>
+          <div class="skeleton-shimmer skeleton-btn"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-badge"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short"></div>
+        <div class="skeleton-tags">
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+        </div>
+        <div class="skeleton-footer">
+          <div class="skeleton-shimmer skeleton-price"></div>
+          <div class="skeleton-shimmer skeleton-btn"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-badge"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short"></div>
+        <div class="skeleton-tags">
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+        </div>
+        <div class="skeleton-footer">
+          <div class="skeleton-shimmer skeleton-price"></div>
+          <div class="skeleton-shimmer skeleton-btn"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-badge"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short"></div>
+        <div class="skeleton-tags">
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+        </div>
+        <div class="skeleton-footer">
+          <div class="skeleton-shimmer skeleton-price"></div>
+          <div class="skeleton-shimmer skeleton-btn"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-badge"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short"></div>
+        <div class="skeleton-tags">
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+        </div>
+        <div class="skeleton-footer">
+          <div class="skeleton-shimmer skeleton-price"></div>
+          <div class="skeleton-shimmer skeleton-btn"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Step CTA -->
+    <div class="custom-next-step-wrapper" style="margin-top:2rem;">
+      <a href="booking.html" class="custom-next-step-btn">
+        <span>Ready to Book?</span>
+        <span class="custom-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Glö Salon Platform</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="index.html" style="color:rgba(255,255,255,0.5)">Home</a>
+        <a href="booking.html" style="color:rgba(255,255,255,0.5)">Book</a>
+        <a href="salon-register.html" style="color:rgba(255,255,255,0.5)">Salons</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  let allServices = [];
+  let currentCategory = 'All';
+
+  function renderSkeletons(count = 6) {
+    const grid = document.getElementById('catalog-grid');
+    grid.innerHTML = Array.from({ length: count }).map(() => `
+      <div class="skeleton-card">
+        <div class="skeleton-shimmer skeleton-badge"></div>
+        <div class="skeleton-shimmer skeleton-title"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short"></div>
+        <div class="skeleton-tags">
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+        </div>
+        <div class="skeleton-footer">
+          <div class="skeleton-shimmer skeleton-price"></div>
+          <div class="skeleton-shimmer skeleton-btn"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function loadCatalog() {
+    try {
+      renderSkeletons(6);
+      const params = {};
+      const urlCat = new URLSearchParams(window.location.search).get('category');
+      if (urlCat) {
+        currentCategory = urlCat;
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.cat === urlCat);
+        });
+      }
+
+      const data = await ServicesAPI.getAll();
+      allServices = data.services || [];
+      filterServices();
+    } catch (err) {
+      document.getElementById('catalog-grid').innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-70);">
+          <div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>
+          <h3>Backend not connected</h3>
+          <p>Make sure the Node.js server is running on port 5000.</p>
+          <code style="display:block;margin-top:1rem;padding:1rem;background:var(--primary-10);border-radius:8px;">cd backend && node server.js</code>
+          <button onclick="loadCatalog()" class="btn btn-primary" style="margin-top:1.5rem;">Retry</button>
+        </div>`;
+    }
+  }
+
+  function setCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterServices();
+  }
+
+  function filterServices() {
+    const search = document.getElementById('search-input').value.toLowerCase();
+    const sort   = document.getElementById('sort-select').value;
+
+    let filtered = allServices.filter(s => {
+      const matchCat  = currentCategory === 'All' || s.category === currentCategory;
+      const matchSearch = !search || s.name.toLowerCase().includes(search) ||
+                          (s.description || '').toLowerCase().includes(search) ||
+                          (s.tags || []).some(t => t.toLowerCase().includes(search));
+      return matchCat && matchSearch;
+    });
+
+    if (sort === 'price_asc')  filtered.sort((a,b) => a.basePrice - b.basePrice);
+    if (sort === 'price_desc') filtered.sort((a,b) => b.basePrice - a.basePrice);
+    if (sort === 'popular')    filtered.sort((a,b) => (b.popularity||0) - (a.popularity||0));
+
+    document.getElementById('results-count').textContent = `${filtered.length} service${filtered.length !== 1 ? 's' : ''} found`;
+    renderServices(filtered);
+  }
+
+  function renderServices(services) {
+    const grid = document.getElementById('catalog-grid');
+    if (!services.length) {
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-70);">
+        <div style="font-size:2.5rem;">🔎</div>
+        <p style="margin-top:1rem;">No services match your filter. <a href="#" onclick="document.getElementById('search-input').value='';filterServices()" style="color:var(--primary)">Clear search</a></p>
+      </div>`;
+      return;
+    }
+    grid.innerHTML = services.map(s => {
+      const badgeClass = s.category === 'Women' ? 'badge-women' : s.category === 'Men' ? 'badge-men' : 'badge-unisex';
+      const tags = (s.tags || []).slice(0, 3).map(t => `<span style="font-size:0.7rem;padding:2px 8px;border-radius:999px;background:var(--primary-10);color:var(--primary);margin-right:4px;">${t}</span>`).join('');
+      return `
+      <div class="glass-card service-card fade-in" onclick="window.location='service.html?id=${s._id}'">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+          <span class="service-card-badge ${badgeClass}">${s.category}</span>
+          <span style="font-size:0.75rem;color:var(--text-50);font-weight:600;">${s.duration || ''}</span>
+        </div>
+        <h3>${s.name}</h3>
+        <p>${(s.description || '').slice(0,110)}...</p>
+        <div style="margin:0.75rem 0;">${tags}</div>
+        <div class="service-card-footer">
+          <div class="service-price">
+            <span class="label">Starting from</span>
+            <span class="amount">${formatINR(s.basePrice)}</span>
+          </div>
+          <button class="btn btn-primary btn-sm"
+            onclick="event.stopPropagation();window.location='booking.html?serviceId=${s._id}'">
+            Book
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Re-run fade-in on new cards
+    document.querySelectorAll('.fade-in:not(.visible)').forEach(el => {
+      setTimeout(() => el.classList.add('visible'), 50);
+    });
+  }
+
+  loadCatalog();
+</script>
+</body>
+</html>

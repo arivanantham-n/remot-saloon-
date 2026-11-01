@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="glassBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4C1D95" stop-opacity="0.85" />
+      <stop offset="25%" stop-color="#6D28D9" stop-opacity="0.65" />
+      <stop offset="50%" stop-color="#8B5CF6" stop-opacity="0.5" />
+      <stop offset="75%" stop-color="#7C3AED" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#4C1D95" stop-opacity="0.9" />
+    </linearGradient>
+
+    <linearGradient id="goldCap" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#92400E" />
+      <stop offset="30%" stop-color="#F59E0B" />
+      <stop offset="50%" stop-color="#FEF3C7" />
+      <stop offset="70%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#78350F" />
+    </linearGradient>
+
+    <linearGradient id="bulbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#374151" />
+      <stop offset="50%" stop-color="#1F2937" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+
+    <filter id="shadowFilter" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#3B0764" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <g filter="url(#shadowFilter)">
+    <!-- Dropper Bulb -->
+    <path d="M 215 150 C 215 90 285 90 285 150 Z" fill="url(#bulbGrad)" />
+    <!-- Dropper Bulb Highlight -->
+    <path d="M 230 140 C 230 110 250 105 250 140" stroke="#9CA3AF" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6" />
+
+    <!-- Gold Collar / Cap -->
+    <rect x="200" y="150" width="100" height="70" rx="6" fill="url(#goldCap)" stroke="#B45309" stroke-width="1.5" />
+    <rect x="195" y="210" width="110" height="15" rx="3" fill="url(#goldCap)" />
+
+    <!-- Glass Bottle Body -->
+    <rect x="155" y="225" width="190" height="340" rx="32" fill="url(#glassBody)" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+
+    <!-- Internal Serum Liquid Level -->
+    <rect x="163" y="270" width="174" height="285" rx="24" fill="url(#goldCap)" opacity="0.35" />
+
+    <!-- Bottle Specular Reflections (Glass realism) -->
+    <path d="M 175 250 L 175 530" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.45" />
+    <path d="M 188 260 L 188 510" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.3" />
+    <path d="M 325 250 L 325 530" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.25" />
+
+    <!-- Minimalist Luxury Label -->
+    <rect x="180" y="320" width="140" height="170" rx="8" fill="rgba(255,255,255,0.92)" stroke="rgba(245,158,11,0.5)" stroke-width="1.5" />
+    <text x="250" y="358" font-family="'Outfit', sans-serif" font-weight="900" font-size="20" fill="#6C3CE9" text-anchor="middle" letter-spacing="3">GLÖ</text>
+    <text x="250" y="385" font-family="'Inter', sans-serif" font-weight="700" font-size="11" fill="#1F2937" text-anchor="middle" letter-spacing="2">LUMIÈRE</text>
+    <line x1="210" y1="400" x2="290" y2="400" stroke="#F59E0B" stroke-width="1" />
+    <text x="250" y="420" font-family="'Inter', sans-serif" font-weight="600" font-size="10" fill="#D97706" text-anchor="middle" letter-spacing="1">FACIAL ELIXIR</text>
+    <text x="250" y="450" font-family="'Inter', sans-serif" font-size="9" fill="#6B7280" text-anchor="middle">50ml · 1.7 fl oz</text>
+  </g>
+</svg>

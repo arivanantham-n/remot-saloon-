@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salon Owner Dashboard — Glö Salon</title>
+  <meta name="description" content="Manage your salon profile, operating hours, and service menu.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══════════════════════════════════════════════════ -->
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Premium Salon</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Services</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="salon-register.html">For Salons</a></li>
+      <li><a href="my-bookings.html" id="nav-bookings-link" style="display:none">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout</button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a>
+  <a href="how-it-works.html">How It Works</a>
+  <a href="booking.html">Book Now</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="profile.html">My Profile</a>
+</div>
+
+<!-- ═══ DASHBOARD HERO ═══════════════════════════════════════════════ -->
+<section class="dashboard-hero">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <h1 style="font-size: 2.2rem; margin:0;" id="salon-header-name">Salon Dashboard</h1>
+      <span id="salon-status" class="dashboard-status-pill">Loading...</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DASHBOARD CONTENT ════════════════════════════════════════════ -->
+<section class="section" style="padding-top:2rem;min-height:500px;">
+  <div class="container">
+    
+    <!-- Fallback if no salon registered -->
+    <div id="no-salon-msg" class="hidden glass-card" style="padding:4rem 2rem;text-align:center;">
+      <div style="font-size:3.5rem;margin-bottom:1rem;">💈</div>
+      <h2 style="margin-bottom:0.75rem;">No Salon Registered</h2>
+      <p style="color:var(--text-70);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto;">You haven't registered a salon yet, or it couldn't be found. Register your business to start receiving direct orders.</p>
+      <a href="salon-register.html" class="btn btn-primary">Register a Salon</a>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard-content" class="dashboard-layout hidden fade-in">
+
+      <!-- ─── Sidebar: Business Profile ─── -->
+      <div>
+        <div class="glass-card dashboard-sidebar-card">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Business Profile
+            </h2>
+          </div>
+          <form id="business-form">
+            <div class="form-group">
+              <label>Salon Name</label>
+              <input type="text" id="biz-name" required>
+            </div>
+            <div class="form-group">
+              <label>Owner Name</label>
+              <input type="text" id="biz-owner" required>
+            </div>
+            <div class="form-group">
+              <label>Business Email</label>
+              <input type="email" id="biz-email">
+              <span id="biz-email-error" style="font-size:0.75rem;color:#ef4444;display:none;margin-top:0.25rem;"></span>
+            </div>
+            <div class="form-group">
+              <label>Contact Phone (Verified)</label>
+              <input type="text" id="biz-phone" required disabled style="background:rgba(108,60,233,0.04);color:var(--text-50);cursor:not-allowed;">
+            </div>
+            <div class="form-group">
+              <label>GSTIN (Optional)</label>
+              <input type="text" id="biz-gstin" placeholder="e.g. 22AAAAA0000A1Z5">
+            </div>
+            
+            <h3 style="margin:1.5rem 0 0.75rem;font-size:1.05rem;font-weight:700;">Location</h3>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" id="biz-address" required>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem;">
+              <div>
+                <label>City</label>
+                <input type="text" id="biz-city" required>
+              </div>
+              <div>
+                <label>Pincode</label>
+                <input type="text" id="biz-pincode" required pattern="[0-9]{6}" title="Enter a 6-digit pincode">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="save-biz-btn">Save Business Details</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ─── Main Content ─── -->
+      <div>
+        
+        <!-- Operating Hours -->
+        <div class="glass-card dashboard-section-card">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Operating Hours
+            </h2>
+            <button class="btn btn-secondary btn-sm" id="save-hours-btn" onclick="saveHours()">Save Hours</button>
+          </div>
+          <div id="hours-container">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Service Menu -->
+        <div class="glass-card dashboard-section-card">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Service Menu
+            </h2>
+            <button class="btn btn-secondary btn-sm" onclick="showToast('Please contact support to add or modify services.', 'info')">+ Request New Service</button>
+          </div>
+          <p style="color:var(--text-70);font-size:0.85rem;margin-bottom:1.25rem;">
+            Your salon currently offers these services. Pricing is managed by Glö Salon standard rates.
+          </p>
+          <div id="services-list" class="service-menu-grid">
+            <!-- Populated via JS -->
+            <div style="text-align:center;padding:2rem;grid-column:1/-1;">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Glö Salon Platform. Built with ✨ precision.</span>
+      <span>Made in India 🇮🇳</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  if (!isLoggedIn()) window.location.href = 'login.html?redirect=salon-dashboard.html';
+
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  let currentHours = [];
+
+  async function loadDashboard() {
+    const user = getUser();
+    if (!user || (user.role !== 'salon_owner' && user.role !== 'admin')) {
+      document.getElementById('no-salon-msg').classList.remove('hidden');
+      document.getElementById('no-salon-msg').innerHTML = `
+        <div style="font-size:3.5rem;margin-bottom:1rem;">🚫</div>
+        <h2 style="margin-bottom:0.75rem;">Access Denied</h2>
+        <p style="color:var(--text-70);margin-bottom:2rem;">This page is restricted to Salon Owners.</p>
+        <a href="profile.html" class="btn btn-primary">Go to Profile</a>`;
+      return;
+    }
+
+    try {
+      const { salon } = await SalonsAPI.getMySalon();
+      
+      document.getElementById('dashboard-content').classList.remove('hidden');
+      document.getElementById('salon-header-name').textContent = salon.name || 'Salon Dashboard';
+
+      // Status pill
+      const statusEl = document.getElementById('salon-status');
+      statusEl.textContent = salon.status.toUpperCase();
+      statusEl.className = `dashboard-status-pill status-${salon.status}`;
+
+      // Populate Form
+      document.getElementById('biz-name').value = salon.name || '';
+      document.getElementById('biz-owner').value = salon.ownerName || '';
+      document.getElementById('biz-email').value = salon.email || '';
+      document.getElementById('biz-phone').value = salon.phone || '';
+      document.getElementById('biz-gstin').value = salon.gstin || '';
+      document.getElementById('biz-address').value = salon.address || '';
+      document.getElementById('biz-city').value = salon.city || '';
+      document.getElementById('biz-pincode').value = salon.pincode || '';
+
+      currentHours = salon.workingHours || [];
+      renderHours();
+      renderServices(salon.services || []);
+
+    } catch (err) {
+      if (err.message.includes('not found') || err.message.includes('404')) {
+        document.getElementById('no-salon-msg').classList.remove('hidden');
+      } else {
+        showToast('Error loading dashboard: ' + err.message, 'error');
+      }
+    }
+  }
+
+  // ─── Business Form Submit ──────────────────────────
+  document.getElementById('business-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const emailError = document.getElementById('biz-email-error');
+    emailError.style.display = 'none';
+
+    const email = document.getElementById('biz-email').value.trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailError.textContent = 'Please enter a valid email address.';
+      emailError.style.display = 'block';
+      return;
+    }
+
+    const pincode = document.getElementById('biz-pincode').value.trim();
+    if (pincode && !/^\d{6}$/.test(pincode)) {
+      showToast('Please enter a valid 6-digit pincode.', 'error');
+      return;
+    }
+
+    const btn = document.getElementById('save-biz-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    try {
+      const { salon } = await SalonsAPI.updateMySalon({
+        name: document.getElementById('biz-name').value.trim(),
+        ownerName: document.getElementById('biz-owner').value.trim(),
+        email: email,
+        // phone is disabled/verified
+        gstin: document.getElementById('biz-gstin').value.trim(),
+        address: document.getElementById('biz-address').value.trim(),
+        city: document.getElementById('biz-city').value.trim(),
+        pincode: pincode
+      });
+      
+      document.getElementById('salon-header-name').textContent = salon.name;
+      showToast('Business details updated successfully!', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Save Business Details';
+    }
+  });
+
+  // ─── Operating Hours ──────────────────────────────
+  function renderHours() {
+    const container = document.getElementById('hours-container');
+    container.innerHTML = DAYS.map(day => {
+      const h = currentHours.find(x => x.day === day) || { day, open: '09:00', close: '20:00', isClosed: false };
+      return `
+        <div class="hours-row">
+          <div class="day-label">${day}</div>
+          <input type="time" id="open-${day}" value="${h.open}" ${h.isClosed ? 'disabled style="opacity:0.5"' : ''}>
+          <input type="time" id="close-${day}" value="${h.close}" ${h.isClosed ? 'disabled style="opacity:0.5"' : ''}>
+          <label class="closed-toggle">
+            <input type="checkbox" id="closed-${day}" ${h.isClosed ? 'checked' : ''} onchange="toggleDay('${day}')">
+            Closed
+          </label>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.toggleDay = function(day) {
+    const isClosed = document.getElementById(`closed-${day}`).checked;
+    const openInput = document.getElementById(`open-${day}`);
+    const closeInput = document.getElementById(`close-${day}`);
+    
+    openInput.disabled = isClosed;
+    closeInput.disabled = isClosed;
+    
+    if (isClosed) {
+      openInput.style.opacity = '0.5';
+      closeInput.style.opacity = '0.5';
+    } else {
+      openInput.style.opacity = '1';
+      closeInput.style.opacity = '1';
+    }
+  };
+
+  window.saveHours = async function() {
+    const btn = document.getElementById('save-hours-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    const hours = DAYS.map(day => ({
+      day,
+      open: document.getElementById(`open-${day}`).value,
+      close: document.getElementById(`close-${day}`).value,
+      isClosed: document.getElementById(`closed-${day}`).checked
+    }));
+
+    try {
+      await SalonsAPI.updateMySalon({ workingHours: hours });
+      showToast('Operating hours updated successfully!', 'success');
+      currentHours = hours;
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Save Hours';
+    }
+  };
+
+  // ─── Services ───────────────────────────────────
+  function renderServices(services) {
+    const container = document.getElementById('services-list');
+    if (!services || !services.length) {
+      container.innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:2rem 0;color:var(--text-50);">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">📋</div>
+          <p>No services linked to your salon yet.</p>
+        </div>`;
+      return;
+    }
+    
+    container.innerHTML = services.map(s => `
+      <div class="service-menu-item">
+        <div class="service-menu-name">${s.name}</div>
+        <div class="service-menu-meta">
+          <span>⏱️ ${s.duration || 'N/A'}</span>
+          <span style="margin:0 6px;">|</span>
+          <span>💰 ${formatINR(s.basePrice)}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  loadDashboard();
+</script>
+</body>
+</html>

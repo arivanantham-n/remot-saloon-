@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salon Owner Profile — Glö Salon</title>
+  <meta name="description" content="Manage your salon business profile, working hours, location radius, and payout details.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══════════════════════════════════════════════════ -->
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Premium Salon</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Services</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="salon-dashboard.html">Salon Dashboard</a></li>
+      <li><a href="salon-register.html">For Salons</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm" style="display:none">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout</button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="salon-profile.html" class="profile-container" title="Salon Owner Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a>
+  <a href="salon-dashboard.html">Salon Dashboard</a>
+  <a href="salon-profile.html" class="active">Salon Profile</a>
+</div>
+
+<!-- ═══ PROFILE HERO ═════════════════════════════════════════════════ -->
+<section class="profile-hero">
+  <div class="container">
+    <div class="glass-card profile-header-card fade-in">
+      <div class="profile-avatar" id="owner-avatar" style="background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;">✂️</div>
+      <div class="profile-header-info">
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+          <h1 id="owner-display-salon" style="margin:0;">Salon Profile</h1>
+          <span id="owner-verification-status" class="dashboard-status-pill status-approved" style="font-size:0.75rem;padding:0.25rem 0.75rem;">VERIFIED</span>
+        </div>
+        <p style="color:var(--text-70);margin:0.25rem 0 0.5rem;font-size:0.95rem;" id="owner-display-sub">Owner: Loading...</p>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+          <span class="profile-role-badge" style="background:rgba(108,60,233,0.12);color:var(--primary);font-weight:700;">💈 Salon Owner</span>
+          <span style="font-size:0.85rem;color:var(--text-70);" id="owner-phone-display">📱 +91 XXXXXXXX</span>
+          <span style="font-size:0.85rem;color:var(--text-70);" id="owner-rating-display">⭐ 4.9 Partner</span>
+        </div>
+        <div style="margin-top:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+          <a href="salon-dashboard.html" class="btn btn-secondary btn-sm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Live Orders & Dashboard →
+          </a>
+          <a href="catalog.html" class="btn btn-secondary btn-sm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            Service Catalog Menu
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROFILE CONTENT ══════════════════════════════════════════════ -->
+<section class="section" style="padding-top:2rem;">
+  <div class="container">
+    <div class="profile-layout">
+
+      <!-- ─── Left Column: Salon & Business Info ─── -->
+      <div>
+        <!-- Business Profile Form -->
+        <div class="glass-card profile-sidebar-card fade-in">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Salon Business Details
+            </h2>
+          </div>
+          <form id="owner-profile-form">
+            <div class="form-group">
+              <label for="owner-salon-name">Salon / Business Name *</label>
+              <input type="text" id="owner-salon-name" placeholder="e.g. Luxe Studio & Spa" required>
+            </div>
+
+            <div class="form-group">
+              <label for="owner-full-name">Owner Full Name *</label>
+              <input type="text" id="owner-full-name" placeholder="Owner's full name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="owner-biz-phone">Contact Phone (Verified ID)</label>
+              <input type="text" id="owner-biz-phone" disabled style="background:rgba(108,60,233,0.04);color:var(--text-50);cursor:not-allowed;" title="Phone number is verified via OTP and cannot be modified directly.">
+              <span style="font-size:0.75rem;color:var(--text-70);margin-top:0.25rem;display:block;">🔒 Used for client booking alerts & OTP notifications.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="owner-biz-email">Business Email</label>
+              <input type="email" id="owner-biz-email" placeholder="owner@salon.com">
+              <span id="owner-email-error" style="font-size:0.75rem;color:#ef4444;display:none;margin-top:0.25rem;"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="owner-gstin">Business Registration / GSTIN (Optional)</label>
+              <input type="text" id="owner-gstin" placeholder="e.g. 29AAAAA0000A1Z5">
+            </div>
+
+            <div class="form-group">
+              <label for="owner-bio">About the Salon / Bio</label>
+              <textarea id="owner-bio" rows="3" placeholder="Describe your salon, hygiene standards, and expertise..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="owner-logo">Logo / Photo URL</label>
+              <input type="url" id="owner-logo" placeholder="https://example.com/logo.png">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="save-owner-biz-btn">
+              💾 Save Business Profile
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ─── Right Column: Location, Operating Hours & Payouts ─── -->
+      <div>
+
+        <!-- Location & Radius -->
+        <div class="glass-card profile-section-card fade-in">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Location & Service Radius
+            </h2>
+          </div>
+          <form id="owner-location-form">
+            <div class="form-group">
+              <label for="owner-address">Full Physical Address *</label>
+              <input type="text" id="owner-address" placeholder="Door No., Street, Landmark" required>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+              <div class="form-group">
+                <label for="owner-city">City *</label>
+                <input type="text" id="owner-city" placeholder="e.g. Bangalore" required>
+              </div>
+              <div class="form-group">
+                <label for="owner-pincode">Pincode *</label>
+                <input type="text" id="owner-pincode" placeholder="560034" pattern="[0-9]{6}" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="owner-radius">At-Home Service Radius</label>
+              <select id="owner-radius">
+                <option value="3 km">3 km (Hyperlocal)</option>
+                <option value="5 km" selected>5 km (Standard)</option>
+                <option value="10 km">10 km (Extended)</option>
+                <option value="15 km">15 km (Wide Metro)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm" id="save-owner-loc-btn">
+              📍 Update Location & Radius
+            </button>
+          </form>
+        </div>
+
+        <!-- Operating Hours -->
+        <div class="glass-card profile-section-card fade-in">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Operating Hours
+            </h2>
+            <button class="btn btn-secondary btn-sm" onclick="saveOperatingHours()" id="save-hours-btn">Save Hours</button>
+          </div>
+          <div id="owner-hours-container" style="display:flex;flex-direction:column;gap:0.75rem;">
+            <!-- Populated via script -->
+          </div>
+        </div>
+
+        <!-- Payout Details (Protected & Masked) -->
+        <div class="glass-card profile-section-card fade-in">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Banking & Payout Account (Secured)
+            </h2>
+            <span class="badge badge-success" style="font-size:0.75rem;">Direct Weekly Settlement</span>
+          </div>
+          <p style="color:var(--text-70);font-size:0.85rem;margin-bottom:1.25rem;">
+            Your earnings (90% per completed booking) are transferred automatically to this account. Sensitive numbers are masked for security.
+          </p>
+
+          <form id="owner-payout-form">
+            <div class="form-group">
+              <label for="payout-holder">Account Holder Name</label>
+              <input type="text" id="payout-holder" placeholder="Name as per Bank Account">
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+              <div class="form-group">
+                <label for="payout-account">Bank Account Number</label>
+                <input type="text" id="payout-account" placeholder="XXXXXX1234">
+                <span style="font-size:0.72rem;color:var(--text-50);">Leave unchanged or enter new digits to update.</span>
+              </div>
+              <div class="form-group">
+                <label for="payout-ifsc">IFSC Code</label>
+                <input type="text" id="payout-ifsc" placeholder="HDFC0001234" style="text-transform:uppercase;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="payout-upi">UPI ID / VPA (Optional for instant payouts)</label>
+              <input type="text" id="payout-upi" placeholder="yourname@okhdfcbank">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm" id="save-payout-btn">
+              🏦 Save Payout Information
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Glö Salon Partner Portal · Dedicated Salon Owner Experience</span>
+      <span>10% Platform Commission · 90% Partner Payout</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  // ─── Role Gate: Clients are forbidden and redirected immediately ───
+  if (!isLoggedIn()) {
+    window.location.replace('login.html?redirect=salon-profile.html');
+  } else {
+    const cachedUser = getUser();
+    if (cachedUser && cachedUser.role === 'client') {
+      window.location.replace('profile.html');
+    }
+  }
+
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  let currentHours = [];
+  let salonData = null;
+
+  async function loadOwnerProfile() {
+    try {
+      const res = await ProfileAPI.getOwnerProfile();
+      if (!res || !res.hasSalon) {
+        showToast('No registered salon linked to this account.', 'error');
+        setTimeout(() => window.location.href = 'salon-register.html', 1500);
+        return;
+      }
+
+      salonData = res.profile;
+
+      // Header info
+      document.getElementById('owner-display-salon').textContent = salonData.salonName || 'My Salon';
+      document.getElementById('owner-display-sub').textContent = `Owner: ${salonData.ownerName || 'Verified Partner'}`;
+      document.getElementById('owner-phone-display').textContent = `📱 ${salonData.phone}`;
+      document.getElementById('owner-rating-display').textContent = `⭐ ${salonData.rating ? salonData.rating.toFixed(1) : '4.9'} (${salonData.totalReviews || 0} reviews)`;
+
+      const statusEl = document.getElementById('owner-verification-status');
+      statusEl.textContent = (salonData.verificationStatus || 'pending').toUpperCase();
+      statusEl.className = `dashboard-status-pill status-${salonData.verificationStatus || 'pending'}`;
+
+      // Business Form
+      document.getElementById('owner-salon-name').value = salonData.salonName || '';
+      document.getElementById('owner-full-name').value = salonData.ownerName || '';
+      document.getElementById('owner-biz-phone').value = salonData.phone || '';
+      document.getElementById('owner-biz-email').value = salonData.email || '';
+      document.getElementById('owner-gstin').value = salonData.gstin || '';
+      document.getElementById('owner-bio').value = salonData.bio || '';
+      document.getElementById('owner-logo').value = salonData.logo || '';
+
+      // Location Form
+      document.getElementById('owner-address').value = salonData.businessAddress || '';
+      document.getElementById('owner-city').value = salonData.city || '';
+      document.getElementById('owner-pincode').value = salonData.pincode || '';
+      if (salonData.serviceRadius) {
+        document.getElementById('owner-radius').value = salonData.serviceRadius;
+      }
+
+      // Payout Form
+      if (salonData.payoutDetails) {
+        document.getElementById('payout-holder').value = salonData.payoutDetails.accountHolderName || '';
+        document.getElementById('payout-account').value = salonData.payoutDetails.accountNumber || '';
+        document.getElementById('payout-ifsc').value = salonData.payoutDetails.ifscCode || '';
+        document.getElementById('payout-upi').value = salonData.payoutDetails.upiId || '';
+      }
+
+      // Hours
+      currentHours = salonData.workingHours && salonData.workingHours.length ? salonData.workingHours : defaultHours();
+      renderHours(currentHours);
+
+    } catch (err) {
+      if (err.message && err.message.includes('Forbidden')) {
+        window.location.replace('profile.html');
+        return;
+      }
+      showToast('Error loading salon profile: ' + err.message, 'error');
+    }
+  }
+
+  function defaultHours() {
+    return DAYS.map(d => ({
+      day: d,
+      open: '09:00',
+      close: d === 'Sat' ? '18:00' : (d === 'Sun' ? '17:00' : '20:00'),
+      isClosed: d === 'Sun'
+    }));
+  }
+
+  function renderHours(hours) {
+    const container = document.getElementById('owner-hours-container');
+    container.innerHTML = hours.map((h, i) => `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.85rem;background:rgba(108,60,233,0.03);border:1px solid rgba(108,60,233,0.08);border-radius:var(--radius-sm);gap:0.75rem;flex-wrap:wrap;">
+        <span style="font-weight:700;min-width:40px;">${h.day}</span>
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <input type="time" value="${h.open || '09:00'}" id="open-${i}" ${h.isClosed ? 'disabled' : ''} style="padding:0.35rem 0.5rem;font-size:0.85rem;">
+          <span style="color:var(--text-50);">to</span>
+          <input type="time" value="${h.close || '20:00'}" id="close-${i}" ${h.isClosed ? 'disabled' : ''} style="padding:0.35rem 0.5rem;font-size:0.85rem;">
+        </div>
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.82rem;cursor:pointer;">
+          <input type="checkbox" id="closed-${i}" ${h.isClosed ? 'checked' : ''} onchange="toggleDayClosed(${i}, this.checked)"> Closed
+        </label>
+      </div>
+    `).join('');
+  }
+
+  function toggleDayClosed(idx, isClosed) {
+    document.getElementById(`open-${idx}`).disabled = isClosed;
+    document.getElementById(`close-${idx}`).disabled = isClosed;
+    if (currentHours[idx]) currentHours[idx].isClosed = isClosed;
+  }
+
+  async function saveOperatingHours() {
+    const btn = document.getElementById('save-hours-btn');
+    btn.disabled = true; btn.textContent = 'Saving...';
+    try {
+      const updated = DAYS.map((d, i) => ({
+        day: d,
+        open: document.getElementById(`open-${i}`).value,
+        close: document.getElementById(`close-${i}`).value,
+        isClosed: document.getElementById(`closed-${i}`).checked
+      }));
+      await ProfileAPI.updateOwnerProfile({ workingHours: updated });
+      currentHours = updated;
+      showToast('Operating hours updated successfully!', 'success');
+    } catch (err) {
+      showToast('Failed to save hours: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Save Hours';
+    }
+  }
+
+  // Business profile form submit
+  document.getElementById('owner-profile-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('save-owner-biz-btn');
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    const payload = {
+      salonName: document.getElementById('owner-salon-name').value.trim(),
+      ownerName: document.getElementById('owner-full-name').value.trim(),
+      email: document.getElementById('owner-biz-email').value.trim(),
+      gstin: document.getElementById('owner-gstin').value.trim(),
+      bio: document.getElementById('owner-bio').value.trim(),
+      logo: document.getElementById('owner-logo').value.trim()
+    };
+
+    try {
+      const res = await ProfileAPI.updateOwnerProfile(payload);
+      showToast('Business details updated successfully!', 'success');
+      document.getElementById('owner-display-salon').textContent = payload.salonName;
+      document.getElementById('owner-display-sub').textContent = `Owner: ${payload.ownerName}`;
+      updateNavAuth();
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = '💾 Save Business Profile';
+    }
+  });
+
+  // Location form submit
+  document.getElementById('owner-location-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('save-owner-loc-btn');
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    const payload = {
+      address: document.getElementById('owner-address').value.trim(),
+      city: document.getElementById('owner-city').value.trim(),
+      pincode: document.getElementById('owner-pincode').value.trim(),
+      serviceRadius: document.getElementById('owner-radius').value
+    };
+
+    try {
+      await ProfileAPI.updateOwnerProfile(payload);
+      showToast('Location and radius updated!', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = '📍 Update Location & Radius';
+    }
+  });
+
+  // Payout form submit
+  document.getElementById('owner-payout-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('save-payout-btn');
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    const payoutDetails = {
+      accountHolderName: document.getElementById('payout-holder').value.trim(),
+      accountNumber: document.getElementById('payout-account').value.trim(),
+      ifscCode: document.getElementById('payout-ifsc').value.trim(),
+      upiId: document.getElementById('payout-upi').value.trim()
+    };
+
+    try {
+      const res = await ProfileAPI.updateOwnerProfile({ payoutDetails });
+      showToast('Payout details updated securely!', 'success');
+      if (res.profile && res.profile.payoutDetails) {
+        document.getElementById('payout-account').value = res.profile.payoutDetails.accountNumber || '';
+        document.getElementById('payout-upi').value = res.profile.payoutDetails.upiId || '';
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = '🏦 Save Payout Information';
+    }
+  });
+
+  loadOwnerProfile();
+</script>
+</body>
+</html>

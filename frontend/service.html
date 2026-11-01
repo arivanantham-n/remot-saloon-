@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Detail — Glö Salon</title>
+  <meta name="description" content="View service details, choose your preferences, and see live pricing before booking.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/next-step-arrows.css">
+</head>
+<body>
+
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Premium Salon</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html" class="active">Services</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="salon-register.html">For Salons</a></li>
+      <li><a href="my-bookings.html" id="nav-bookings-link" style="display:none">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout</button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Now</a>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a><a href="booking.html">Book Now</a>
+  <a href="my-bookings.html">My Bookings</a><a href="login.html">Login</a>
+</div>
+
+<div style="height:72px;"></div>
+
+<!-- ═══ SERVICE DETAIL ════════════════════════════════════════════════ -->
+<section class="section" style="padding-top:3rem;">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <div style="font-size:0.8rem;color:var(--text-70);margin-bottom:1.5rem;">
+      <a href="index.html" style="color:var(--primary)">Home</a> &rsaquo;
+      <a href="catalog.html" style="color:var(--primary)">Services</a> &rsaquo;
+      <span id="breadcrumb-name">Service</span>
+    </div>
+
+    <!-- Journey Flow Indicator -->
+    <div class="custom-flow-indicator" style="margin-bottom:1.5rem;">
+      <span class="custom-flow-step">🔍 Browse</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step">✨ Select</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step custom-flow-active">⚙️ Customize</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step">📅 Book</span>
+    </div>
+
+    <div id="service-loading" class="skeleton-detail-layout" style="margin-bottom:2rem;">
+      <div>
+        <div style="display:flex;gap:0.75rem;margin-bottom:1rem;">
+          <div class="skeleton-shimmer skeleton-badge"></div>
+          <div class="skeleton-shimmer skeleton-badge" style="width:100px;"></div>
+        </div>
+        <div class="skeleton-shimmer skeleton-title" style="width:70%;height:32px;margin-bottom:1rem;"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text"></div>
+        <div class="skeleton-shimmer skeleton-text short" style="margin-bottom:1.5rem;"></div>
+        <div class="skeleton-tags">
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+          <div class="skeleton-shimmer skeleton-tag"></div>
+        </div>
+        <div class="glass-card" style="padding:1.75rem;margin-bottom:2rem;">
+          <div class="skeleton-shimmer skeleton-title" style="width:50%;margin-bottom:1.25rem;"></div>
+          <div class="skeleton-shimmer skeleton-text" style="height:36px;margin-bottom:1rem;"></div>
+          <div class="skeleton-shimmer skeleton-text" style="height:36px;"></div>
+        </div>
+      </div>
+      <div>
+        <div class="glass-card" style="padding:1.75rem;">
+          <div class="skeleton-shimmer skeleton-title" style="width:60%;margin-bottom:1rem;"></div>
+          <div class="skeleton-shimmer skeleton-text" style="height:48px;margin-bottom:1rem;"></div>
+          <div class="skeleton-shimmer skeleton-btn" style="width:100%;height:44px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="service-content" class="hidden">
+      <div style="display:grid;grid-template-columns:1fr 380px;gap:3rem;align-items:start;">
+
+        <!-- Left: Info -->
+        <div>
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+            <span id="svc-badge" class="service-card-badge badge-women"></span>
+            <span id="svc-subcategory" style="font-size:0.8rem;color:var(--text-50);font-weight:600;"></span>
+            <span id="svc-duration" style="font-size:0.8rem;color:var(--text-50);font-weight:600;"></span>
+          </div>
+          <h1 id="svc-name" style="font-size:2rem;margin-bottom:1rem;"></h1>
+          <p id="svc-description" style="color:var(--text-70);line-height:1.8;margin-bottom:2rem;font-size:1rem;"></p>
+
+          <div id="svc-tags" style="margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:0.5rem;"></div>
+
+          <!-- Variant Selector -->
+          <div class="glass-card" style="padding:1.75rem;margin-bottom:2rem;">
+            <h3 style="margin-bottom:1.25rem;font-size:1.05rem;">Customize Your Service</h3>
+
+            <div id="length-section">
+              <label>Hair Length</label>
+              <div class="variant-grid" id="length-chips" style="margin-bottom:1.25rem;"></div>
+            </div>
+
+            <div>
+              <label>Product Tier</label>
+              <div class="variant-grid" id="product-chips"></div>
+            </div>
+
+            <div class="price-summary" style="margin-top:1.5rem;">
+              <div class="price-row">
+                <span>Base Price</span>
+                <span id="base-price-display">—</span>
+              </div>
+              <div class="price-row total">
+                <span>💎 Your Price</span>
+                <span id="final-price-display" style="font-size:1.4rem;"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reviews Section -->
+          <div>
+            <h3 style="margin-bottom:1.25rem;">Client Reviews</h3>
+            <div id="reviews-list">
+              <div style="color:var(--text-70);font-size:0.875rem;">Loading reviews...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Booking Panel -->
+        <div style="position:sticky;top:88px;">
+          <div class="glass-card" style="padding:2rem;">
+            <div style="text-align:center;margin-bottom:1.5rem;">
+              <div style="font-size:0.8rem;color:var(--text-70);margin-bottom:4px;">Selected Price</div>
+              <div id="panel-price" style="font-size:2.5rem;font-weight:900;color:var(--primary);">—</div>
+            </div>
+            <div class="divider"></div>
+            <div style="margin:1rem 0;font-size:0.875rem;color:var(--text-70);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+                <span>⏱ Duration</span><span id="panel-duration" style="font-weight:600;">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+                <span>🗂 Category</span><span id="panel-category" style="font-weight:600;">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span>💰 Payment</span><span style="font-weight:600;">Pay at Salon</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <button id="book-btn" class="btn btn-primary btn-full btn-lg" style="margin-top:1rem;" onclick="goToBooking()">
+              Book This Service
+            </button>
+            <a href="catalog.html" class="btn btn-secondary btn-full btn-sm" style="margin-top:0.75rem;text-align:center;">← Back to Catalog</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="service-error" class="hidden" style="text-align:center;padding:4rem;color:var(--text-70);">
+      <div style="font-size:3rem;margin-bottom:1rem;">😕</div>
+      <h3>Service not found</h3>
+      <p style="margin:1rem 0;">The service you're looking for doesn't exist or has been removed.</p>
+      <a href="catalog.html" class="btn btn-primary">Browse Services</a>
+    </div>
+
+    <!-- Next Step CTA below service content -->
+    <div class="custom-next-step-wrapper" style="margin-top:2rem;">
+      <a href="#" onclick="goToBooking(); return false;" class="custom-next-step-btn">
+        <span>Proceed to Booking</span>
+        <span class="custom-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Glö Salon Platform</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  let currentService = null;
+  let selectedLength  = 'N/A';
+  let selectedProduct = 'normal';
+
+  const serviceId = new URLSearchParams(window.location.search).get('id');
+
+  async function loadService() {
+    if (!serviceId) { showError(); return; }
+    try {
+      const data = await ServicesAPI.getById(serviceId);
+      currentService = data.service;
+      renderService(currentService);
+      loadReviews();
+    } catch (err) {
+      showError();
+    }
+  }
+
+  function renderService(s) {
+    document.getElementById('service-loading').classList.add('hidden');
+    document.getElementById('service-content').classList.remove('hidden');
+    document.title = `${s.name} — Glö Salon`;
+    document.getElementById('breadcrumb-name').textContent = s.name;
+
+    const badgeClass = s.category === 'Women' ? 'badge-women' : s.category === 'Men' ? 'badge-men' : 'badge-unisex';
+    document.getElementById('svc-badge').className = `service-card-badge ${badgeClass}`;
+    document.getElementById('svc-badge').textContent = s.category;
+    document.getElementById('svc-subcategory').textContent = s.subcategory || '';
+    document.getElementById('svc-duration').textContent = s.duration ? `⏱ ${s.duration}` : '';
+    document.getElementById('svc-name').textContent = s.name;
+    document.getElementById('svc-description').textContent = s.description || '';
+
+    const tagsEl = document.getElementById('svc-tags');
+    tagsEl.innerHTML = (s.tags || []).map(t =>
+      `<span style="padding:4px 12px;border-radius:999px;background:var(--primary-10);color:var(--primary);font-size:0.75rem;font-weight:600;">${t}</span>`
+    ).join('');
+
+    // Panel
+    document.getElementById('panel-duration').textContent = s.duration || '—';
+    document.getElementById('panel-category').textContent = s.category;
+
+    // Length chips
+    const lengths = [...new Set((s.priceTiers || []).map(t => t.lengthTier))];
+    const lengthSection = document.getElementById('length-section');
+    if (lengths.length === 0 || (lengths.length === 1 && lengths[0] === 'N/A')) {
+      lengthSection.style.display = 'none';
+      selectedLength = 'N/A';
+    } else {
+      lengthSection.style.display = '';
+      document.getElementById('length-chips').innerHTML = lengths
+        .filter(l => l !== 'N/A')
+        .map(l => `<button class="variant-chip ${l === selectedLength ? 'selected' : ''}"
+            onclick="selectLength('${l}',this)">${l.charAt(0).toUpperCase()+l.slice(1)}</button>`).join('');
+      if (!lengths.includes(selectedLength)) selectedLength = lengths.find(l => l !== 'N/A') || 'N/A';
+    }
+
+    // Product chips
+    const products = [...new Set((s.priceTiers || []).map(t => t.productTier))];
+    document.getElementById('product-chips').innerHTML = products.map(p =>
+      `<button class="variant-chip ${p === selectedProduct ? 'selected' : ''}"
+          onclick="selectProduct('${p}',this)">${p.charAt(0).toUpperCase()+p.slice(1)}</button>`
+    ).join('');
+
+    updatePrice();
+  }
+
+  function selectLength(l, btn) {
+    selectedLength = l;
+    document.querySelectorAll('#length-chips .variant-chip').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    updatePrice();
+  }
+
+  function selectProduct(p, btn) {
+    selectedProduct = p;
+    document.querySelectorAll('#product-chips .variant-chip').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    updatePrice();
+  }
+
+  function updatePrice() {
+    if (!currentService) return;
+    let price = currentService.basePrice;
+    const tier = (currentService.priceTiers || []).find(t =>
+      (t.lengthTier === selectedLength || t.lengthTier === 'N/A') &&
+      t.productTier === selectedProduct
+    );
+    if (tier) price = tier.price;
+    document.getElementById('base-price-display').textContent = formatINR(currentService.basePrice);
+    document.getElementById('final-price-display').textContent = formatINR(price);
+    document.getElementById('panel-price').textContent = formatINR(price);
+  }
+
+  function goToBooking() {
+    if (!currentService) return;
+    const params = new URLSearchParams({
+      serviceId: currentService._id,
+      hairLength: selectedLength,
+      productTier: selectedProduct
+    });
+    window.location.href = `booking.html?${params.toString()}`;
+  }
+
+  async function loadReviews() {
+    const el = document.getElementById('reviews-list');
+    try {
+      // For demo, we don't know the salon yet — show placeholder
+      el.innerHTML = `<div style="color:var(--text-70);font-size:0.875rem;padding:1rem;background:var(--primary-10);border-radius:12px;">
+        💬 Reviews will appear after selecting a salon and completing your booking.
+        <br><a href="catalog.html" style="color:var(--primary);">Browse more services</a>
+      </div>`;
+    } catch (err) {}
+  }
+
+  function showError() {
+    document.getElementById('service-loading').classList.add('hidden');
+    document.getElementById('service-error').classList.remove('hidden');
+  }
+
+  loadService();
+</script>
+</body>
+</html>

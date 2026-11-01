@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment — Glö Salon</title>
+  <meta name="description" content="Complete your salon booking: select a salon, choose your date and time slot, and confirm.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/next-step-arrows.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Premium Salon</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Services</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="booking.html" class="active">Book Now</a></li>
+      <li><a href="salon-register.html">For Salons</a></li>
+      <li><a href="my-bookings.html" id="nav-bookings-link" style="display:none">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout</button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="login.html">Login</a>
+</div>
+
+<div style="height:72px;"></div>
+
+<!-- ═══ BOOKING FLOW ══════════════════════════════════════════════════ -->
+<section class="section" style="padding-top:3rem;">
+  <div class="container" style="max-width:900px;">
+    <!-- Journey Flow Indicator -->
+    <div class="custom-flow-indicator" style="margin-bottom:1.5rem;">
+      <span class="custom-flow-step">🔍 Browse</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step">✨ Select</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step">⚙️ Customize</span>
+      <span class="custom-flow-arrow">→</span>
+      <span class="custom-flow-step custom-flow-active">📅 Book</span>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="steps" id="booking-steps" style="margin-bottom:2.5rem;">
+      <div class="step active" data-step="1">
+        <div>
+          <div class="step-circle">1</div>
+          <span class="step-label">Service</span>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step" data-step="2">
+        <div>
+          <div class="step-circle">2</div>
+          <span class="step-label">Salon</span>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step" data-step="3">
+        <div>
+          <div class="step-circle">3</div>
+          <span class="step-label">Date & Time</span>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step" data-step="4">
+        <div>
+          <div class="step-circle">4</div>
+          <span class="step-label">Confirm</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── STEP 1: Service Selection ─── -->
+    <div id="step-1" class="step-panel">
+      <div class="glass-card" style="padding:2rem;">
+        <h2 style="margin-bottom:1.5rem;">Select a Service</h2>
+        <div class="filter-bar" style="margin-bottom:1rem;">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="service-search" placeholder="Search services..." oninput="filterBookingServices()">
+          </div>
+          <select id="service-cat-filter" onchange="filterBookingServices()" class="sort-select">
+            <option value="">All Categories</option>
+            <option value="Women">Women</option>
+            <option value="Men">Men</option>
+            <option value="Unisex">Unisex</option>
+          </select>
+        </div>
+        <div id="service-list-booking" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:0.6rem;">
+          <!-- Skeleton loaders for service list -->
+          <div class="skeleton-service-row"><div class="skeleton-shimmer skeleton-avatar"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><div class="skeleton-shimmer skeleton-title" style="width:70%;"></div><div class="skeleton-shimmer skeleton-text" style="width:50%;"></div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;"><div class="skeleton-shimmer skeleton-price"></div><div class="skeleton-shimmer skeleton-text" style="width:44px;"></div></div></div>
+          <div class="skeleton-service-row"><div class="skeleton-shimmer skeleton-avatar"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><div class="skeleton-shimmer skeleton-title" style="width:60%;"></div><div class="skeleton-shimmer skeleton-text" style="width:45%;"></div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;"><div class="skeleton-shimmer skeleton-price"></div><div class="skeleton-shimmer skeleton-text" style="width:44px;"></div></div></div>
+          <div class="skeleton-service-row"><div class="skeleton-shimmer skeleton-avatar"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><div class="skeleton-shimmer skeleton-title" style="width:75%;"></div><div class="skeleton-shimmer skeleton-text" style="width:55%;"></div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;"><div class="skeleton-shimmer skeleton-price"></div><div class="skeleton-shimmer skeleton-text" style="width:44px;"></div></div></div>
+          <div class="skeleton-service-row"><div class="skeleton-shimmer skeleton-avatar"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><div class="skeleton-shimmer skeleton-title" style="width:65%;"></div><div class="skeleton-shimmer skeleton-text" style="width:40%;"></div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;"><div class="skeleton-shimmer skeleton-price"></div><div class="skeleton-shimmer skeleton-text" style="width:44px;"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── STEP 2: Salon Selection ─── -->
+    <div id="step-2" class="step-panel hidden">
+      <div class="glass-card" style="padding:2rem;">
+        <h2 style="margin-bottom:0.5rem;">Choose a Salon</h2>
+        <p style="color:var(--text-70);margin-bottom:1.5rem;font-size:0.9rem;">Select a nearby verified salon for your service.</p>
+        <div id="salon-list" style="display:flex;flex-direction:column;gap:0.75rem;">
+          <!-- Skeleton loaders for salon list -->
+          <div class="skeleton-service-row"><div class="skeleton-shimmer skeleton-avatar" style="border-radius:12px;"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><div class="skeleton-shimmer skeleton-title" style="width:55%;"></div><div class="skeleton-shimmer skeleton-text" style="width:70%;"></div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;"><div class="skeleton-shimmer skeleton-badge"></div><div class="skeleton-shimmer skeleton-text" style="width:56px;"></div></div></div>
+          <div class="skeleton-service-row"><div class="skeleton-shimmer skeleton-avatar" style="border-radius:12px;"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><div class="skeleton-shimmer skeleton-title" style="width:65%;"></div><div class="skeleton-shimmer skeleton-text" style="width:60%;"></div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;"><div class="skeleton-shimmer skeleton-badge"></div><div class="skeleton-shimmer skeleton-text" style="width:56px;"></div></div></div>
+          <div class="skeleton-service-row"><div class="skeleton-shimmer skeleton-avatar" style="border-radius:12px;"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><div class="skeleton-shimmer skeleton-title" style="width:50%;"></div><div class="skeleton-shimmer skeleton-text" style="width:75%;"></div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;"><div class="skeleton-shimmer skeleton-badge"></div><div class="skeleton-shimmer skeleton-text" style="width:56px;"></div></div></div>
+        </div>
+        <button class="btn btn-secondary" onclick="goStep(1)" style="margin-top:1.5rem;">← Back</button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 3: Date & Time ─── -->
+    <div id="step-3" class="step-panel hidden">
+      <div class="glass-card" style="padding:2rem;">
+        <h2 style="margin-bottom:1.5rem;">Pick Date & Time</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+          <div>
+            <label>Select Date</label>
+            <div id="mini-calendar" style="margin-top:0.75rem;"></div>
+          </div>
+          <div>
+            <label>Available Slots</label>
+            <div id="slot-grid-container" style="margin-top:0.75rem;">
+              <p style="color:var(--text-70);font-size:0.875rem;">Select a date to see available slots.</p>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <label>Address / Notes (optional)</label>
+          <textarea id="booking-address" placeholder="Your address or any special instructions for the stylist..." rows="3"></textarea>
+        </div>
+        <button class="btn btn-secondary" onclick="goStep(2)" style="margin-top:1rem;">← Back</button>
+      </div>
+    </div>
+
+    <!-- ─── STEP 4: Confirm ─── -->
+    <div id="step-4" class="step-panel hidden">
+      <div class="glass-card" style="padding:2rem;">
+        <h2 style="margin-bottom:1.5rem;">Confirm Booking</h2>
+
+        <div id="confirm-summary" style="margin-bottom:1.5rem;display:flex;flex-direction:column;gap:0.75rem;"></div>
+
+        <div class="price-summary" style="margin-bottom:1.5rem;">
+          <div class="price-row">
+            <span>Service</span><span id="confirm-service-name" style="font-weight:700;">—</span>
+          </div>
+          <div class="price-row">
+            <span>Hair Length</span><span id="confirm-length">—</span>
+          </div>
+          <div class="price-row">
+            <span>Product Tier</span><span id="confirm-product">—</span>
+          </div>
+          <div class="price-row">
+            <span>Payment</span><span id="confirm-payment-method" style="color:var(--success);font-weight:700;">Razorpay / Pay at Salon</span>
+          </div>
+          <div class="price-row total">
+            <span>Total</span><span id="confirm-total">—</span>
+          </div>
+        </div>
+
+        <div id="confirm-auth-warning" class="hidden" style="padding:1rem;border-radius:12px;background:rgba(244,185,66,0.1);border:1px solid rgba(244,185,66,0.3);color:#92400e;font-size:0.875rem;margin-bottom:1rem;">
+          ⚠️ Please <a href="login.html?redirect=booking.html" style="color:var(--primary);font-weight:700;">login first</a> to confirm your booking.
+        </div>
+
+        <button class="btn btn-primary btn-full btn-lg" onclick="confirmBooking()" id="confirm-btn">
+          💳 Pay & Confirm Booking
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="goStep(3)" style="margin-top:0.75rem;">← Back</button>
+      </div>
+    </div>
+
+    <!-- ─── CONFIRMATION ─── -->
+    <div id="step-confirmed" class="hidden">
+      <div class="glass-card confirmation-box">
+        <div class="big-check">🎉</div>
+        <h2 style="margin-top:1rem;">Booking Confirmed!</h2>
+        <p style="color:var(--text-70);margin:0.75rem 0;">Your appointment has been successfully booked.</p>
+        <div class="order-id-chip" id="confirmed-order-id">GLO-XXXXX</div>
+        <div id="confirmed-details" style="margin:1.5rem 0;text-align:left;background:var(--primary-10);border-radius:var(--radius-md);padding:1.25rem;font-size:0.9rem;"></div>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;">
+          <a href="my-bookings.html" class="btn btn-primary">View My Bookings</a>
+          <a href="catalog.html" class="btn btn-secondary">Book Another</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container"><div class="footer-bottom"><span>© 2026 Glö Salon Platform</span></div></div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  // ─── State ────────────────────────────────────────────────────────
+  const booking = {
+    serviceId: null, serviceName: null, servicePrice: null, serviceDuration: null,
+    salonId: null, salonName: null,
+    date: null, timeSlot: null,
+    hairLength: 'N/A', productTier: 'normal',
+    address: ''
+  };
+
+  let allServices = [];
+  let allSalons   = [];
+  let currentStep = 1;
+
+  // Pre-fill from URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('serviceId')) booking.serviceId   = urlParams.get('serviceId');
+  if (urlParams.get('hairLength')) booking.hairLength = urlParams.get('hairLength');
+  if (urlParams.get('productTier')) booking.productTier = urlParams.get('productTier');
+
+  // ─── Step navigation ──────────────────────────────────────────────
+  function goStep(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById(`step-${n}`).classList.remove('hidden');
+    document.querySelectorAll('.step[data-step]').forEach(s => {
+      const sn = parseInt(s.dataset.step);
+      s.classList.remove('active','done');
+      if (sn < n) s.classList.add('done');
+      if (sn === n) s.classList.add('active');
+    });
+    currentStep = n;
+    if (n === 2) loadSalons();
+    if (n === 3) renderCalendar();
+    if (n === 4) renderConfirmation();
+  }
+
+  // ─── Step 1: Services ─────────────────────────────────────────────
+  async function loadBookingServices() {
+    try {
+      const data = await ServicesAPI.getAll();
+      allServices = data.services || [];
+      filterBookingServices();
+      if (booking.serviceId) {
+        const svc = allServices.find(s => s._id === booking.serviceId);
+        if (svc) autoSelectService(svc, false);
+      }
+    } catch (err) {
+      document.getElementById('service-list-booking').innerHTML =
+        `<div style="color:var(--danger);padding:1rem;">Could not load services. Is the backend running?</div>`;
+    }
+  }
+
+  function filterBookingServices() {
+    const q   = document.getElementById('service-search').value.toLowerCase();
+    const cat = document.getElementById('service-cat-filter').value;
+    const filtered = allServices.filter(s =>
+      (!cat || s.category === cat) &&
+      (!q || s.name.toLowerCase().includes(q) || (s.tags||[]).some(t => t.includes(q)))
+    );
+    renderBookingServiceList(filtered);
+  }
+
+  function renderBookingServiceList(services) {
+    const el = document.getElementById('service-list-booking');
+    if (!services.length) { el.innerHTML = '<div style="color:var(--text-70);padding:1rem;">No services found.</div>'; return; }
+    el.innerHTML = services.map(s => {
+      const badgeClass = s.category === 'Women' ? 'badge-women' : s.category === 'Men' ? 'badge-men' : 'badge-unisex';
+      const selected = s._id === booking.serviceId;
+      return `
+      <div onclick="selectService('${s._id}')" style="padding:1rem;border-radius:var(--radius-md);border:2px solid ${selected ? 'var(--primary)' : 'rgba(108,60,233,0.15)'};cursor:pointer;display:flex;align-items:center;justify-content:space-between;background:${selected ? 'var(--primary-10)' : '#fff'};transition:all 0.2s;" id="svc-row-${s._id}">
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <div style="width:40px;height:40px;border-radius:10px;background:var(--primary-10);display:flex;align-items:center;justify-content:center;font-size:1.1rem;">💅</div>
+          <div>
+            <div style="font-weight:700;font-size:0.9rem;">${s.name}</div>
+            <div style="font-size:0.75rem;color:var(--text-70);">${s.category} · ${s.duration||''}</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-weight:900;color:var(--primary);">${formatINR(s.basePrice)}</div>
+          <div style="font-size:0.7rem;color:var(--text-50);">starting</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function selectService(id) {
+    const svc = allServices.find(s => s._id === id);
+    if (!svc) return;
+    autoSelectService(svc, true);
+  }
+
+  function autoSelectService(svc, proceed) {
+    booking.serviceId   = svc._id;
+    booking.serviceName = svc.name;
+    // Calculate price with current length/product settings
+    let price = svc.basePrice;
+    const tier = (svc.priceTiers||[]).find(t => t.lengthTier === booking.hairLength && t.productTier === booking.productTier);
+    if (tier) price = tier.price;
+    booking.servicePrice   = price;
+    booking.serviceDuration = svc.duration;
+    renderBookingServiceList(allServices); // re-render to highlight
+    if (proceed) goStep(2);
+  }
+
+  // ─── Step 2: Salons ───────────────────────────────────────────────
+  async function loadSalons() {
+    try {
+      const data = await SalonsAPI.getAll({ status: 'approved' });
+      allSalons = data.salons || [];
+      renderSalonList();
+    } catch (err) {
+      document.getElementById('salon-list').innerHTML = `<div style="color:var(--danger)">Could not load salons.</div>`;
+    }
+  }
+
+  function renderSalonList() {
+    const el = document.getElementById('salon-list');
+    if (!allSalons.length) {
+      el.innerHTML = `<div style="color:var(--text-70);padding:1rem;">No approved salons found. 
+        <a href="salon-register.html" style="color:var(--primary)">Register your salon</a></div>`;
+      return;
+    }
+    el.innerHTML = allSalons.map(salon => `
+    <div onclick="selectSalon('${salon._id}')" style="padding:1.25rem;border-radius:var(--radius-md);border:2px solid ${salon._id === booking.salonId ? 'var(--primary)' : 'rgba(108,60,233,0.15)'};cursor:pointer;display:flex;align-items:center;justify-content:space-between;background:${salon._id === booking.salonId ? 'var(--primary-10)' : '#fff'};transition:all 0.2s;" id="salon-row-${salon._id}">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div class="salon-avatar" style="background:var(--primary-10);color:var(--primary);">${salon.name.slice(0,2).toUpperCase()}</div>
+        <div>
+          <div style="font-weight:700;">${salon.name}</div>
+          <div style="font-size:0.78rem;color:var(--text-70);">${salon.specialty} · ${salon.city || ''} · ${salon.serviceRadius}</div>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:0.9rem;font-weight:700;color:var(--accent);">${salon.rating > 0 ? salon.rating + '★' : 'New'}</div>
+        <div style="font-size:0.72rem;color:var(--text-50);">${salon.totalReviews} reviews</div>
+      </div>
+    </div>`).join('');
+  }
+
+  function selectSalon(id) {
+    const salon = allSalons.find(s => s._id === id);
+    if (!salon) return;
+    booking.salonId   = salon._id;
+    booking.salonName = salon.name;
+    renderSalonList();
+    goStep(3);
+  }
+
+  // ─── Step 3: Calendar ─────────────────────────────────────────────
+  function renderCalendar() {
+    const today = new Date();
+    const year  = today.getFullYear();
+    const month = today.getMonth();
+    const calEl = document.getElementById('mini-calendar');
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const monthName = today.toLocaleString('default', { month: 'long' });
+
+    let html = `<div style="font-weight:700;margin-bottom:0.75rem;color:var(--primary);">${monthName} ${year}</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:0.72rem;margin-bottom:4px;">
+      ${['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => `<div style="font-weight:700;color:var(--text-50);padding:4px;">${d}</div>`).join('')}
+    </div>
+    <div class="calendar-grid">`;
+
+    for (let i = 0; i < firstDay; i++) html += `<div></div>`;
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(year, month, d);
+      const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isPast  = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const isToday = d === today.getDate();
+      const isSelected = dateStr === booking.date;
+      html += `<div class="calendar-day ${isPast ? 'disabled' : ''} ${isToday && !isSelected ? 'today' : ''} ${isSelected ? 'selected' : ''}"
+        ${!isPast ? `onclick="selectDate('${dateStr}',this)"` : ''}>${d}</div>`;
+    }
+    html += `</div>`;
+    calEl.innerHTML = html;
+  }
+
+  async function selectDate(dateStr, el) {
+    booking.date = dateStr;
+    booking.timeSlot = null;
+    document.querySelectorAll('.calendar-day').forEach(d => { d.classList.remove('selected'); });
+    el.classList.add('selected');
+    await loadSlots(dateStr);
+  }
+
+  async function loadSlots(date) {
+    const el = document.getElementById('slot-grid-container');
+    el.innerHTML = '<div class="spinner" style="width:24px;height:24px;margin:1rem auto;"></div>';
+    try {
+      const data = await BookingsAPI.getSlots(booking.serviceId, date, booking.salonId);
+      const slots = data.slots || [];
+      if (!slots.length) { el.innerHTML = '<p style="color:var(--text-70);font-size:0.875rem;">No slots available for this date.</p>'; return; }
+      el.innerHTML = `<div class="slot-grid">` +
+        slots.map(s => `
+          <button class="slot-btn ${!s.available ? 'booked' : ''} ${s.time === booking.timeSlot ? 'selected' : ''}"
+            ${s.available ? `onclick="selectSlot('${s.time}',this)"` : 'disabled'}
+            title="${s.available ? '' : 'Already booked'}">
+            ${s.time}
+          </button>`).join('') +
+        `</div><div style="font-size:0.75rem;color:var(--text-50);margin-top:0.75rem;">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--primary);margin-right:4px;"></span>Selected
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(0,0,0,0.15);text-decoration:line-through;margin-left:10px;margin-right:4px;"></span>Booked
+        </div>`;
+    } catch (err) {
+      el.innerHTML = `<p style="color:var(--danger);font-size:0.875rem;">Could not load slots.</p>`;
+    }
+  }
+
+  function selectSlot(time, btn) {
+    booking.timeSlot = time;
+    document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    setTimeout(() => goStep(4), 400);
+  }
+
+  // ─── Step 4: Confirm ──────────────────────────────────────────────
+  function renderConfirmation() {
+    const service = allServices.find(s => s._id === booking.serviceId);
+    if (service) {
+      let price = service.basePrice;
+      const tier = (service.priceTiers||[]).find(t => t.lengthTier === booking.hairLength && t.productTier === booking.productTier);
+      if (tier) price = tier.price;
+      booking.servicePrice = price;
+    }
+
+    document.getElementById('confirm-service-name').textContent = booking.serviceName || '—';
+    document.getElementById('confirm-length').textContent = booking.hairLength === 'N/A' ? 'N/A' : booking.hairLength;
+    document.getElementById('confirm-product').textContent = booking.productTier;
+    document.getElementById('confirm-total').textContent = formatINR(booking.servicePrice || 0);
+
+    document.getElementById('confirm-summary').innerHTML = [
+      { icon: '💅', label: 'Service', val: booking.serviceName },
+      { icon: '🏪', label: 'Salon',   val: booking.salonName },
+      { icon: '📅', label: 'Date',    val: booking.date ? formatDate(booking.date) : '—' },
+      { icon: '⏰', label: 'Time',    val: booking.timeSlot },
+    ].map(row => `
+      <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:var(--primary-10);border-radius:var(--radius-sm);">
+        <span style="font-size:1.2rem;">${row.icon}</span>
+        <span style="font-weight:600;color:var(--text-70);min-width:70px;">${row.label}</span>
+        <span style="font-weight:700;">${row.val || '—'}</span>
+      </div>`).join('');
+
+    if (!isLoggedIn()) {
+      document.getElementById('confirm-auth-warning').classList.remove('hidden');
+    }
+  }
+
+  function showSuccessScreen(b, paymentId) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById('step-confirmed').classList.remove('hidden');
+    document.getElementById('confirmed-order-id').textContent = b.bookingId;
+    document.getElementById('confirmed-details').innerHTML = `
+      <div style="margin-bottom:0.5rem;"><strong>Service:</strong> ${b.service?.name || booking.serviceName}</div>
+      <div style="margin-bottom:0.5rem;"><strong>Salon:</strong> ${b.salon?.name || booking.salonName}</div>
+      <div style="margin-bottom:0.5rem;"><strong>Date & Time:</strong> ${formatDate(b.date)} at ${b.timeSlot}</div>
+      <div style="margin-bottom:0.5rem;"><strong>Total Price:</strong> ${formatINR(b.totalPrice)}</div>
+      <div style="margin-bottom:0.5rem;"><strong>Payment Status:</strong> <span style="color:${paymentId ? 'var(--success)' : 'var(--accent)'};font-weight:700;">${paymentId ? '✅ Paid via Razorpay (' + paymentId + ')' : '⏳ Pay at Salon'}</span></div>`;
+  }
+
+  async function confirmBooking() {
+    if (!isLoggedIn()) {
+      showToast('Please login to book a service', 'error');
+      setTimeout(() => window.location.href = 'login.html?redirect=booking.html', 1500);
+      return;
+    }
+    const btn = document.getElementById('confirm-btn');
+    btn.disabled = true; btn.textContent = 'Creating Order…';
+    try {
+      const data = await BookingsAPI.create({
+        serviceId:  booking.serviceId,
+        salonId:    booking.salonId,
+        date:       booking.date,
+        timeSlot:   booking.timeSlot,
+        hairLength: booking.hairLength,
+        productTier:booking.productTier,
+        address:    document.getElementById('booking-address').value,
+        notes:      ''
+      });
+      const b = data.booking;
+
+      // Initiate Razorpay Payment Order
+      btn.textContent = 'Launching Razorpay…';
+      try {
+        const orderData = await window.api.payments.createOrder(b._id);
+        const user = getUser() || {};
+
+        if (typeof Razorpay !== 'undefined') {
+          const options = {
+            key: orderData.keyId,
+            amount: orderData.order.amount,
+            currency: orderData.order.currency,
+            name: "Glö Salon",
+            description: `${b.serviceName || booking.serviceName} Booking`,
+            image: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+            order_id: orderData.order.id,
+            handler: async function (response) {
+              showToast('Verifying payment signature…', 'info');
+              try {
+                const verifyRes = await window.api.payments.verify({
+                  bookingId: b._id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature
+                });
+                showToast('Payment Verified! Appointment Confirmed 🎉', 'success');
+                showSuccessScreen(verifyRes.booking || b, response.razorpay_payment_id);
+              } catch (verErr) {
+                showToast('Verification error: ' + verErr.message, 'error');
+                showSuccessScreen(b, null);
+              }
+            },
+            prefill: {
+              name: user.name || '',
+              email: user.email || '',
+              contact: user.phone || ''
+            },
+            theme: {
+              color: '#D4AF37'
+            },
+            modal: {
+              ondismiss: function() {
+                showToast('Payment window closed. Appointment reserved as Pay at Salon.', 'info');
+                showSuccessScreen(b, null);
+              }
+            }
+          };
+          const rzp = new Razorpay(options);
+          rzp.open();
+        } else {
+          // Fallback if Razorpay script is unavailable
+          showSuccessScreen(b, null);
+          showToast('Booking reserved! Pay at Salon on appointment day. 🎉', 'success');
+        }
+      } catch (payErr) {
+        console.warn('Razorpay order creation skipped/fallback:', payErr.message);
+        showSuccessScreen(b, null);
+        showToast('Booking confirmed! Pay at salon on service date. 🎉', 'success');
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+      btn.disabled = false; btn.textContent = '💳 Pay with Razorpay & Confirm';
+    }
+  }
+
+  // ─── Init ─────────────────────────────────────────────────────────
+  loadBookingServices();
+</script>
+</body>
+</html>

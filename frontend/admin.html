@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Glö Salon</title>
+  <meta name="description" content="Glö Salon admin dashboard: manage services, salons, bookings, and reviews.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- ═══ ADMIN LAYOUT ══════════════════════════════════════════════════ -->
+
+<!-- Auth Gate -->
+<div id="admin-auth-gate" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a0f3c,#2d1b69);padding:2rem;">
+  <div class="glass-card auth-card" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);">
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div class="nav-logo-icon" style="margin:0 auto 0.75rem;width:56px;height:56px;font-size:1.5rem;">G</div>
+      <h2 style="color:#fff;font-size:1.5rem;">Admin Portal</h2>
+      <p style="color:rgba(255,255,255,0.6);font-size:0.875rem;">Enter the admin password to access the dashboard.</p>
+    </div>
+    <div class="form-group">
+      <label style="color:rgba(255,255,255,0.7);">Admin Password</label>
+      <input type="password" id="admin-password-input" placeholder="Enter admin password" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#fff;" onkeydown="if(event.key==='Enter')adminLogin()">
+    </div>
+    <button class="btn btn-primary btn-full btn-lg" onclick="adminLogin()">Access Dashboard →</button>
+    <div style="text-align:center;margin-top:1rem;">
+      <a href="index.html" style="color:rgba(255,255,255,0.5);font-size:0.875rem;">← Back to Site</a>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="admin-dashboard" class="hidden">
+  <header class="nav glass-nav" style="z-index:100;">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">G</div>
+        <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Admin Panel</span></div>
+      </a>
+      <div style="flex:1;"></div>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <span style="font-size:0.875rem;color:var(--text-70);">🔑 Admin Mode</span>
+        <button class="btn btn-danger btn-sm" onclick="adminLogout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <h3 style="margin-top:1rem;">NAVIGATION</h3>
+      <div class="admin-nav-item active" onclick="showSection('overview')">📊 Overview</div>
+      <div class="admin-nav-item" onclick="showSection('services')">✂️ Services</div>
+      <div class="admin-nav-item" onclick="showSection('salons')">🏪 Salons</div>
+      <div class="admin-nav-item" onclick="showSection('bookings')">📅 Bookings</div>
+      <div class="admin-nav-item" onclick="showSection('reviews')">⭐ Reviews</div>
+      <div style="height:1px;background:rgba(255,255,255,0.1);margin:1rem 0;"></div>
+      <a href="index.html" class="admin-nav-item">🏠 View Site</a>
+    </aside>
+
+    <!-- Content -->
+    <main class="admin-content">
+
+      <!-- ─── OVERVIEW ─── -->
+      <div id="section-overview">
+        <h2 style="margin-bottom:1.5rem;">Dashboard Overview</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem;" id="stats-grid">
+          <div class="spinner"></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="glass-card" style="padding:1.5rem;">
+            <h4 style="margin-bottom:1rem;color:var(--text-70);font-size:0.875rem;text-transform:uppercase;letter-spacing:0.06em;">Recent Bookings</h4>
+            <div id="recent-bookings-table">
+              <div class="spinner"></div>
+            </div>
+          </div>
+          <div class="glass-card" style="padding:1.5rem;">
+            <h4 style="margin-bottom:1rem;color:var(--text-70);font-size:0.875rem;text-transform:uppercase;letter-spacing:0.06em;">Pending Salon Approvals</h4>
+            <div id="pending-salons-list">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SERVICES ─── -->
+      <div id="section-services" class="hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+          <h2>Manage Services</h2>
+          <button class="btn btn-primary btn-sm" onclick="openAddServiceModal()">+ Add Service</button>
+        </div>
+        <div class="glass-card" style="padding:1.5rem;">
+          <div class="table-wrapper" id="services-table-wrap">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SALONS ─── -->
+      <div id="section-salons" class="hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <h2>Manage Salons</h2>
+          <div style="display:flex;gap:0.75rem;">
+            <select id="salon-status-filter" onchange="loadSalonsAdmin()" style="width:auto;padding:0.6rem 1rem;font-size:0.875rem;">
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div class="glass-card" style="padding:1.5rem;">
+          <div class="table-wrapper" id="salons-table-wrap">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── BOOKINGS ─── -->
+      <div id="section-bookings" class="hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <h2>All Bookings</h2>
+          <select id="booking-status-filter" onchange="loadBookingsAdmin()" style="width:auto;padding:0.6rem 1rem;font-size:0.875rem;">
+            <option value="">All Status</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="glass-card" style="padding:1.5rem;">
+          <div class="table-wrapper" id="bookings-table-wrap">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── REVIEWS ─── -->
+      <div id="section-reviews" class="hidden">
+        <h2 style="margin-bottom:1.5rem;">Manage Reviews</h2>
+        <div class="glass-card" style="padding:1.5rem;">
+          <div class="table-wrapper" id="reviews-table-wrap">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Add/Edit Service Modal -->
+<div id="service-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;">
+  <div class="glass-card" style="width:100%;max-width:560px;padding:2rem;max-height:90vh;overflow-y:auto;">
+    <h3 id="modal-title" style="margin-bottom:1.5rem;">Add New Service</h3>
+    <form id="service-form" onsubmit="saveService(event)">
+      <input type="hidden" id="edit-service-id">
+      <div class="form-group"><label>Service Name *</label>
+        <input type="text" id="svc-form-name" required placeholder="e.g. Advanced Hair Styling"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="form-group"><label>Category *</label>
+          <select id="svc-form-cat">
+            <option value="Women">Women</option>
+            <option value="Men">Men</option>
+            <option value="Unisex">Unisex</option>
+          </select></div>
+        <div class="form-group"><label>Subcategory</label>
+          <input type="text" id="svc-form-subcat" placeholder="Hair Care, Skin..."></div>
+      </div>
+      <div class="form-group"><label>Description</label>
+        <textarea id="svc-form-desc" rows="3" placeholder="Service description..."></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="form-group"><label>Duration</label>
+          <input type="text" id="svc-form-duration" placeholder="45-90 mins"></div>
+        <div class="form-group"><label>Base Price (₹) *</label>
+          <input type="number" id="svc-form-price" required min="0" placeholder="599"></div>
+      </div>
+      <div class="form-group"><label>Tags (comma-separated)</label>
+        <input type="text" id="svc-form-tags" placeholder="hair, styling, coloring"></div>
+      <div style="display:flex;gap:0.75rem;">
+        <button type="submit" class="btn btn-primary" id="save-service-btn">Save Service</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeServiceModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+  let adminKey = '';
+
+  function adminLogin() {
+    const pw = document.getElementById('admin-password-input').value;
+    if (!pw) { showToast('Enter the admin password', 'error'); return; }
+    adminKey = pw;
+    document.getElementById('admin-auth-gate').classList.add('hidden');
+    document.getElementById('admin-dashboard').classList.remove('hidden');
+    loadOverview();
+    showToast('Welcome to the Admin Dashboard 🚀', 'success');
+  }
+
+  function adminLogout() {
+    adminKey = '';
+    document.getElementById('admin-dashboard').classList.add('hidden');
+    document.getElementById('admin-auth-gate').classList.remove('hidden');
+    document.getElementById('admin-password-input').value = '';
+  }
+
+  function showSection(name, btn) {
+    document.querySelectorAll('[id^="section-"]').forEach(el => el.classList.add('hidden'));
+    const targetSection = document.getElementById(`section-${name}`);
+    if (targetSection) targetSection.classList.remove('hidden');
+    document.querySelectorAll('.admin-nav-item').forEach(el => el.classList.remove('active'));
+    const activeEl = btn || (typeof event !== 'undefined' && event ? event.currentTarget : null);
+    if (activeEl && activeEl.classList) activeEl.classList.add('active');
+    if (name === 'services') loadServicesAdmin();
+    if (name === 'salons')   loadSalonsAdmin();
+    if (name === 'bookings') loadBookingsAdmin();
+    if (name === 'reviews')  loadReviewsAdmin();
+  }
+
+  // ─── Overview ─────────────────────────────────────────────────────
+  async function loadOverview() {
+    try {
+      const stats = await AdminAPI.getStats(adminKey);
+      document.getElementById('stats-grid').innerHTML = [
+        { icon: '📅', label: 'Total Bookings', val: stats.totalBookings, color: 'var(--primary)' },
+        { icon: '💰', label: 'Total Revenue',  val: formatINR(stats.totalRevenue), color: 'var(--success)' },
+        { icon: '👤', label: 'Total Users',    val: stats.totalUsers,    color: 'var(--secondary)' },
+        { icon: '⏳', label: 'Pending Salons', val: stats.pendingSalons, color: 'var(--accent)' },
+        { icon: '⭐', label: 'Avg. Rating',    val: stats.avgRating + '★', color: 'var(--accent)' },
+      ].map(s => `
+        <div class="glass-card stat-card">
+          <div style="font-size:1.5rem;">${s.icon}</div>
+          <div class="stat-card-val" style="color:${s.color};">${s.val}</div>
+          <div style="font-size:0.78rem;color:var(--text-70);font-weight:600;">${s.label}</div>
+        </div>`).join('');
+    } catch (err) {
+      document.getElementById('stats-grid').innerHTML = `<div style="color:var(--danger);">Could not load stats. Wrong admin password or backend not running?</div>`;
+    }
+
+    // Recent bookings
+    try {
+      const data = await BookingsAPI.adminAll(adminKey, { limit: 5 });
+      const bookings = data.bookings || [];
+      document.getElementById('recent-bookings-table').innerHTML = bookings.length ? `
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          ${bookings.map(b => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem;border-radius:8px;background:var(--primary-10);font-size:0.82rem;">
+              <div>
+                <div style="font-weight:700;">${b.service?.name||'—'}</div>
+                <div style="color:var(--text-70);">${b.user?.name||b.user?.phone||'—'} · ${b.date}</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-weight:700;color:var(--primary);">${formatINR(b.totalPrice)}</div>
+                <span class="badge ${b.status==='confirmed'?'badge-success':b.status==='cancelled'?'badge-danger':'badge-primary'}">${b.status}</span>
+              </div>
+            </div>`).join('')}
+        </div>` : '<p style="color:var(--text-70);font-size:0.875rem;">No bookings yet.</p>';
+    } catch (err) {}
+
+    // Pending salons
+    try {
+      const data = await SalonsAPI.adminAll(adminKey);
+      const pending = (data.salons || []).filter(s => s.status === 'pending');
+      document.getElementById('pending-salons-list').innerHTML = pending.length ? `
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          ${pending.map(s => `
+            <div style="padding:0.75rem;border-radius:10px;background:rgba(244,185,66,0.08);border:1px solid rgba(244,185,66,0.2);">
+              <div style="font-weight:700;font-size:0.9rem;">${s.name}</div>
+              <div style="font-size:0.78rem;color:var(--text-70);">${s.specialty} · ${s.city}</div>
+              <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+                <button class="btn btn-primary btn-sm" onclick="approveSalon('${s._id}')">Approve</button>
+                <button class="btn btn-danger btn-sm" onclick="rejectSalon('${s._id}')">Reject</button>
+              </div>
+            </div>`).join('')}
+        </div>` : '<p style="color:var(--success);font-size:0.875rem;">✅ No pending approvals!</p>';
+    } catch (err) {}
+  }
+
+  // ─── Services CRUD ────────────────────────────────────────────────
+  async function loadServicesAdmin() {
+    const wrap = document.getElementById('services-table-wrap');
+    wrap.innerHTML = '<div class="spinner"></div>';
+    try {
+      const data = await ServicesAPI.getAll();
+      const services = data.services || [];
+      wrap.innerHTML = `<table>
+        <thead><tr><th>Name</th><th>Category</th><th>Duration</th><th>Base Price</th><th>Popularity</th><th>Actions</th></tr></thead>
+        <tbody>${services.map(s => `
+          <tr>
+            <td><strong>${s.name}</strong><br><span style="font-size:0.75rem;color:var(--text-50);">${s.subcategory||''}</span></td>
+            <td><span class="badge ${s.category==='Women'?'badge-primary':s.category==='Men'?'badge-success':'badge-warning'}">${s.category}</span></td>
+            <td>${s.duration||'—'}</td>
+            <td style="font-weight:700;color:var(--primary);">${formatINR(s.basePrice)}</td>
+            <td>${s.popularity||0}</td>
+            <td>
+              <button class="btn btn-secondary btn-sm" onclick="editService(${JSON.stringify(s).replace(/"/g,'&quot;')})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteService('${s._id}')">Delete</button>
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+    } catch (err) {
+      wrap.innerHTML = `<div style="color:var(--danger);">Error: ${err.message}</div>`;
+    }
+  }
+
+  function openAddServiceModal() {
+    document.getElementById('modal-title').textContent = 'Add New Service';
+    document.getElementById('service-form').reset();
+    document.getElementById('edit-service-id').value = '';
+    document.getElementById('service-modal').classList.remove('hidden');
+  }
+
+  function editService(s) {
+    document.getElementById('modal-title').textContent = 'Edit Service';
+    document.getElementById('edit-service-id').value = s._id;
+    document.getElementById('svc-form-name').value     = s.name;
+    document.getElementById('svc-form-cat').value      = s.category;
+    document.getElementById('svc-form-subcat').value   = s.subcategory || '';
+    document.getElementById('svc-form-desc').value     = s.description || '';
+    document.getElementById('svc-form-duration').value = s.duration || '';
+    document.getElementById('svc-form-price').value    = s.basePrice;
+    document.getElementById('svc-form-tags').value     = (s.tags || []).join(', ');
+    document.getElementById('service-modal').classList.remove('hidden');
+  }
+
+  function closeServiceModal() { document.getElementById('service-modal').classList.add('hidden'); }
+
+  async function saveService(e) {
+    e.preventDefault();
+    const id  = document.getElementById('edit-service-id').value;
+    const btn = document.getElementById('save-service-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    const payload = {
+      name:        document.getElementById('svc-form-name').value,
+      category:    document.getElementById('svc-form-cat').value,
+      subcategory: document.getElementById('svc-form-subcat').value,
+      description: document.getElementById('svc-form-desc').value,
+      duration:    document.getElementById('svc-form-duration').value,
+      basePrice:   Number(document.getElementById('svc-form-price').value),
+      tags:        document.getElementById('svc-form-tags').value.split(',').map(t => t.trim()).filter(Boolean)
+    };
+    try {
+      if (id) await ServicesAPI.update(id, payload, adminKey);
+      else    await ServicesAPI.create(payload, adminKey);
+      showToast(id ? 'Service updated!' : 'Service added!', 'success');
+      closeServiceModal();
+      loadServicesAdmin();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+    btn.disabled = false; btn.textContent = 'Save Service';
+  }
+
+  async function deleteService(id) {
+    if (!confirm('Remove this service? (It will be soft-deleted and hidden from clients)')) return;
+    try {
+      await ServicesAPI.remove(id, adminKey);
+      showToast('Service removed', 'info');
+      loadServicesAdmin();
+    } catch (err) { showToast(err.message, 'error'); }
+  }
+
+  // ─── Salons ───────────────────────────────────────────────────────
+  async function loadSalonsAdmin() {
+    const wrap = document.getElementById('salons-table-wrap');
+    wrap.innerHTML = '<div class="spinner"></div>';
+    try {
+      const filter = document.getElementById('salon-status-filter')?.value;
+      const data = await SalonsAPI.adminAll(adminKey);
+      let salons = data.salons || [];
+      if (filter && filter !== 'all') salons = salons.filter(s => s.status === filter);
+      wrap.innerHTML = `<table>
+        <thead><tr><th>Salon Name</th><th>Owner</th><th>Phone</th><th>Specialty</th><th>City</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>${salons.map(s => `
+          <tr>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.ownerName}</td>
+            <td>${s.phone}</td>
+            <td>${s.specialty}</td>
+            <td>${s.city||'—'}</td>
+            <td><span class="badge ${s.status==='approved'?'badge-success':s.status==='pending'?'badge-warning':'badge-danger'}">${s.status}</span></td>
+            <td>
+              ${s.status==='pending' ? `<button class="btn btn-primary btn-sm" onclick="approveSalon('${s._id}')">Approve</button>
+                <button class="btn btn-danger btn-sm" onclick="rejectSalon('${s._id}')">Reject</button>` : '—'}
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+    } catch (err) { wrap.innerHTML = `<div style="color:var(--danger);">Error: ${err.message}</div>`; }
+  }
+
+  async function approveSalon(id) {
+    try {
+      await SalonsAPI.approve(id, adminKey);
+      showToast('Salon approved! ✅', 'success');
+      loadSalonsAdmin(); loadOverview();
+    } catch (err) { showToast(err.message, 'error'); }
+  }
+
+  async function rejectSalon(id) {
+    try {
+      await SalonsAPI.reject(id, adminKey);
+      showToast('Salon rejected', 'info');
+      loadSalonsAdmin(); loadOverview();
+    } catch (err) { showToast(err.message, 'error'); }
+  }
+
+  // ─── Bookings ─────────────────────────────────────────────────────
+  async function loadBookingsAdmin() {
+    const wrap = document.getElementById('bookings-table-wrap');
+    wrap.innerHTML = '<div class="spinner"></div>';
+    try {
+      const status = document.getElementById('booking-status-filter')?.value;
+      const params = status ? { status } : {};
+      const data = await BookingsAPI.adminAll(adminKey, params);
+      const bookings = data.bookings || [];
+      wrap.innerHTML = `<p style="margin-bottom:0.75rem;font-size:0.875rem;color:var(--text-70);">${data.total} total bookings</p>
+        <table>
+          <thead><tr><th>Booking ID</th><th>Client</th><th>Service</th><th>Salon</th><th>Date</th><th>Time</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody>${bookings.map(b => `
+            <tr>
+              <td style="font-family:monospace;font-size:0.8rem;">${b.bookingId}</td>
+              <td>${b.user?.name||b.user?.phone||'—'}</td>
+              <td>${b.service?.name||'—'}</td>
+              <td>${b.salon?.name||'—'}</td>
+              <td>${b.date||'—'}</td>
+              <td>${b.timeSlot||'—'}</td>
+              <td style="font-weight:700;color:var(--primary);">${formatINR(b.totalPrice)}</td>
+              <td><span class="badge ${b.status==='confirmed'?'badge-success':b.status==='cancelled'?'badge-danger':b.status==='completed'?'badge-primary':'badge-warning'}">${b.status}</span></td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+    } catch (err) { wrap.innerHTML = `<div style="color:var(--danger);">Error: ${err.message}</div>`; }
+  }
+
+  // ─── Reviews ──────────────────────────────────────────────────────
+  async function loadReviewsAdmin() {
+    const wrap = document.getElementById('reviews-table-wrap');
+    wrap.innerHTML = '<div class="spinner"></div>';
+    try {
+      const data = await ReviewsAPI.adminAll(adminKey);
+      const reviews = data.reviews || [];
+      wrap.innerHTML = `<table>
+        <thead><tr><th>Client</th><th>Salon</th><th>Service</th><th>Rating</th><th>Comment</th><th>Verified</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>${reviews.map(r => `
+          <tr>
+            <td>${r.user?.name||r.user?.phone||'—'}</td>
+            <td>${r.salon?.name||'—'}</td>
+            <td>${r.service?.name||'—'}</td>
+            <td style="color:var(--accent);font-weight:700;">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</td>
+            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.comment||'—'}</td>
+            <td>${r.isVerified ? '✅' : '—'}</td>
+            <td><span class="badge ${r.isApproved?'badge-success':'badge-danger'}">${r.isApproved?'Approved':'Hidden'}</span></td>
+            <td><button class="btn btn-secondary btn-sm" onclick="toggleReview('${r._id}')">
+              ${r.isApproved ? 'Hide' : 'Show'}
+            </button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+    } catch (err) { wrap.innerHTML = `<div style="color:var(--danger);">Error: ${err.message}</div>`; }
+  }
+
+  async function toggleReview(id) {
+    try {
+      await ReviewsAPI.toggle(id, adminKey);
+      showToast('Review status updated', 'info');
+      loadReviewsAdmin();
+    } catch (err) { showToast(err.message, 'error'); }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — Glö Salon</title>
+  <meta name="description" content="Manage your Glö Salon profile, saved addresses, and view booking history.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══════════════════════════════════════════════════ -->
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Premium Salon</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Services</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="salon-register.html">For Salons</a></li>
+      <li><a href="my-bookings.html" id="nav-bookings-link" style="display:none">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout</button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a>
+  <a href="how-it-works.html">How It Works</a>
+  <a href="booking.html">Book Now</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="profile.html">My Profile</a>
+</div>
+
+<!-- ═══ PROFILE HERO ═════════════════════════════════════════════════ -->
+<section class="profile-hero">
+  <div class="container">
+    <div class="glass-card profile-header-card fade-in">
+      <div class="profile-avatar" id="profile-avatar">G</div>
+      <div class="profile-header-info">
+        <h1 id="profile-display-name">My Profile</h1>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-top:0.5rem;">
+          <span class="profile-role-badge" id="profile-role-badge">Client</span>
+          <span style="font-size:0.85rem;color:var(--text-70);" id="profile-phone-display"></span>
+        </div>
+        <div style="margin-top:0.75rem;" id="salon-dashboard-link-wrapper" class="hidden">
+          <a href="salon-dashboard.html" class="btn btn-primary btn-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Salon Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROFILE CONTENT ══════════════════════════════════════════════ -->
+<section class="section" style="padding-top:2rem;">
+  <div class="container">
+    <div class="profile-layout">
+
+      <!-- ─── Sidebar: Personal Details ─── -->
+      <div>
+        <div class="glass-card profile-sidebar-card fade-in">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Personal Details
+            </h2>
+          </div>
+          <form id="profile-form">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="prof-name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="prof-email" placeholder="you@example.com">
+              <span id="email-error" style="font-size:0.75rem;color:#ef4444;display:none;margin-top:0.25rem;"></span>
+            </div>
+            <div class="form-group">
+              <label>Phone Number (Primary ID)</label>
+              <input type="text" id="prof-phone" disabled style="background:rgba(108,60,233,0.04);color:var(--text-50);cursor:not-allowed;" title="Phone number is your primary ID and cannot be changed">
+            </div>
+            <button type="submit" class="btn btn-primary btn-full" id="save-profile-btn">Save Changes</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ─── Main Content ─── -->
+      <div>
+        <!-- Saved Addresses -->
+        <div class="glass-card profile-section-card fade-in">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Saved Addresses
+            </h2>
+            <button class="btn btn-secondary btn-sm" id="toggle-address-form-btn">+ Add New</button>
+          </div>
+
+          <!-- Add Address Form (hidden by default) -->
+          <form id="add-address-form" class="hidden" style="background:rgba(108,60,233,0.04);padding:1.25rem;border-radius:var(--radius-sm);margin-bottom:1.25rem;border:1px solid rgba(108,60,233,0.1);">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
+              <div>
+                <label>Title</label>
+                <input type="text" id="addr-title" placeholder="e.g., Home, Office" required>
+              </div>
+              <div>
+                <label>Pincode</label>
+                <input type="text" id="addr-pincode" placeholder="110001" pattern="[0-9]{6}" title="Enter a 6-digit pincode" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Street Address</label>
+              <input type="text" id="addr-street" placeholder="Full street address" required>
+            </div>
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="addr-city" placeholder="City" required>
+            </div>
+            <div style="display:flex;gap:0.75rem;">
+              <button type="submit" class="btn btn-primary btn-sm">Save Address</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('add-address-form').classList.add('hidden')">Cancel</button>
+            </div>
+          </form>
+
+          <div id="addresses-list">
+            <div style="text-align:center;padding:2rem 0;">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking History -->
+        <div class="glass-card profile-section-card fade-in">
+          <div class="profile-section-header">
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Booking History
+            </h2>
+            <a href="my-bookings.html" class="btn btn-secondary btn-sm" style="font-size:0.75rem;">View All →</a>
+          </div>
+          <div id="bookings-list">
+            <div style="text-align:center;padding:2rem 0;">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Glö Salon Platform. Built with ✨ precision.</span>
+      <span>Made in India 🇮🇳</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  // ─── Auth & Role Guard ─────────────────────────
+  if (!isLoggedIn()) {
+    window.location.replace('login.html?redirect=profile.html');
+  } else {
+    const cachedUser = getUser();
+    if (cachedUser && cachedUser.role === 'salon_owner') {
+      window.location.replace('salon-profile.html');
+    }
+  }
+
+  // ─── Load Client Profile ───────────────────────
+  async function loadProfile() {
+    try {
+      let clientProfile = null;
+      try {
+        const res = await ProfileAPI.getClientProfile();
+        clientProfile = res.profile;
+      } catch (e) {
+        if (e.message && e.message.includes('Forbidden')) {
+          window.location.replace('salon-profile.html');
+          return;
+        }
+        // Fallback to legacy AuthAPI.getMe
+        const legacy = await AuthAPI.getMe();
+        if (legacy && legacy.user) {
+          if (legacy.user.role === 'salon_owner') {
+            window.location.replace('salon-profile.html');
+            return;
+          }
+          clientProfile = legacy.user;
+        }
+      }
+
+      if (!clientProfile) return;
+
+      // Populate header
+      const initials = (clientProfile.name || 'G').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+      document.getElementById('profile-avatar').textContent = initials;
+      document.getElementById('profile-display-name').textContent = clientProfile.name || 'Guest User';
+      document.getElementById('profile-phone-display').textContent = clientProfile.phone ? `📱 ${clientProfile.phone}` : '';
+
+      // Role badge
+      const roleBadge = document.getElementById('profile-role-badge');
+      const roleLabels = { client: '👤 Client', salon_owner: '💈 Salon Owner', staff: '✂️ Staff', admin: '🛡️ Admin' };
+      roleBadge.textContent = roleLabels[clientProfile.role] || '👤 Client';
+
+      // Populate form
+      document.getElementById('prof-name').value = clientProfile.name || '';
+      document.getElementById('prof-email').value = clientProfile.email || '';
+      document.getElementById('prof-phone').value = clientProfile.phone || '';
+
+      // Update local storage with fresh data
+      setUser({ id: clientProfile.id || clientProfile._id, name: clientProfile.name, phone: clientProfile.phone, role: clientProfile.role });
+
+      renderAddresses(clientProfile.savedAddresses || []);
+      loadBookings();
+    } catch (err) {
+      showToast('Error loading profile: ' + err.message, 'error');
+    }
+  }
+
+  // ─── Booking history ──────────────────────────
+  async function loadBookings() {
+    try {
+      const { bookings } = await BookingsAPI.getMy();
+      const container = document.getElementById('bookings-list');
+      if (!bookings || !bookings.length) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:2rem 0;color:var(--text-50);">
+            <div style="font-size:2.5rem;margin-bottom:0.75rem;">📋</div>
+            <p style="font-weight:600;">No bookings yet</p>
+            <p style="font-size:0.85rem;margin-top:0.25rem;">Your booking history will appear here.</p>
+            <a href="booking.html" class="btn btn-primary btn-sm" style="margin-top:1rem;">Book Now</a>
+          </div>`;
+        return;
+      }
+
+      // Show max 5 recent bookings
+      const recent = bookings.slice(0, 5);
+      container.innerHTML = recent.map(b => {
+        const statusColors = {
+          confirmed: 'badge-success', pending: 'badge-warning',
+          cancelled: 'badge-danger', completed: 'badge-primary'
+        };
+        return `
+          <div class="booking-history-item">
+            <div class="booking-header">
+              <strong style="font-size:1rem;">${b.service?.name || 'Service'}</strong>
+              <span class="badge ${statusColors[b.status] || 'badge-primary'}">${b.status}</span>
+            </div>
+            <div class="booking-meta">
+              <span class="booking-meta-item">📅 ${new Date(b.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} at ${b.timeSlot}</span>
+              <span class="booking-meta-item">📍 ${b.salon?.name || 'Unknown Salon'}</span>
+              <span class="booking-meta-item">💰 ${formatINR(b.totalPrice)}</span>
+            </div>
+          </div>`;
+      }).join('');
+
+      if (bookings.length > 5) {
+        container.innerHTML += `
+          <div style="text-align:center;margin-top:1rem;">
+            <a href="my-bookings.html" class="btn btn-secondary btn-sm">See All ${bookings.length} Bookings →</a>
+          </div>`;
+      }
+    } catch (err) {
+      document.getElementById('bookings-list').innerHTML = `
+        <div style="text-align:center;padding:1.5rem 0;color:var(--text-50);">
+          <p>Failed to load bookings.</p>
+        </div>`;
+    }
+  }
+
+  // ─── Addresses ────────────────────────────────
+  function renderAddresses(addresses) {
+    const container = document.getElementById('addresses-list');
+    if (!addresses || !addresses.length) {
+      container.innerHTML = `
+        <div style="text-align:center;padding:2rem 0;color:var(--text-50);">
+          <div style="font-size:2.5rem;margin-bottom:0.75rem;">📍</div>
+          <p style="font-weight:600;">No saved addresses</p>
+          <p style="font-size:0.85rem;margin-top:0.25rem;">Add an address for faster checkout.</p>
+        </div>`;
+      return;
+    }
+    container.innerHTML = addresses.map(a => `
+      <div class="address-card-item">
+        <div class="address-info">
+          <div class="address-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${a.title}
+          </div>
+          <div class="address-detail">${a.street}, ${a.city} - ${a.pincode}</div>
+        </div>
+        <button class="address-delete-btn" onclick="deleteAddress('${a._id}')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Delete
+        </button>
+      </div>
+    `).join('');
+  }
+
+  // ─── Profile form submit ──────────────────────
+  document.getElementById('profile-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const emailError = document.getElementById('email-error');
+    emailError.style.display = 'none';
+
+    const name = document.getElementById('prof-name').value.trim();
+    const email = document.getElementById('prof-email').value.trim();
+
+    // Client-side email validation
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailError.textContent = 'Please enter a valid email address.';
+      emailError.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('save-profile-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    try {
+      let updatedUser = null;
+      try {
+        const res = await ProfileAPI.updateClientProfile({ name, email });
+        updatedUser = res.profile;
+      } catch (e) {
+        const legacyRes = await AuthAPI.updateProfile({ name, email });
+        updatedUser = legacyRes.user;
+      }
+
+      if (updatedUser) {
+        setUser({ id: updatedUser.id || updatedUser._id, name: updatedUser.name, phone: updatedUser.phone, role: updatedUser.role });
+
+        // Update header display
+        const initials = (updatedUser.name || 'G').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        document.getElementById('profile-avatar').textContent = initials;
+        document.getElementById('profile-display-name').textContent = updatedUser.name || 'Guest User';
+
+        updateNavAuth();
+        showToast('Profile updated successfully!', 'success');
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Save Changes';
+    }
+  });
+
+  // ─── Address form ─────────────────────────────
+  document.getElementById('toggle-address-form-btn').addEventListener('click', () => {
+    document.getElementById('add-address-form').classList.toggle('hidden');
+  });
+
+  document.getElementById('add-address-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pincode = document.getElementById('addr-pincode').value.trim();
+
+    // Validate 6-digit pincode
+    if (!/^\d{6}$/.test(pincode)) {
+      showToast('Please enter a valid 6-digit pincode.', 'error');
+      return;
+    }
+
+    try {
+      const { addresses } = await AuthAPI.addAddress({
+        title: document.getElementById('addr-title').value.trim(),
+        street: document.getElementById('addr-street').value.trim(),
+        city: document.getElementById('addr-city').value.trim(),
+        pincode: pincode
+      });
+      renderAddresses(addresses);
+      document.getElementById('add-address-form').reset();
+      document.getElementById('add-address-form').classList.add('hidden');
+      showToast('Address added!', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  });
+
+  // ─── Delete address ───────────────────────────
+  window.deleteAddress = async (id) => {
+    if (!confirm('Delete this address?')) return;
+    try {
+      const { addresses } = await AuthAPI.deleteAddress(id);
+      renderAddresses(addresses);
+      showToast('Address deleted', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  loadProfile();
+</script>
+</body>
+</html>

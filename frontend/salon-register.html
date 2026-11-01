@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Your Salon & Grow Revenue — Glö Salon</title>
+  <meta name="description" content="Register your salon or parlour on Glö Salon. Receive direct orders from nearby clients, manage unisex services, and keep 90% revenue with our 10% platform commission model.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div><div class="nav-logo-text"><span>Gl</span><span>ö</span></div><span class="nav-logo-sub">Premium Salon</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Services</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="salon-register.html" class="active">For Salons</a></li>
+      <li><a href="my-bookings.html" id="nav-bookings-link" style="display:none">My Bookings</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout</button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a><a href="booking.html">Book Now</a>
+  <a href="salon-register.html">For Salons</a><a href="login.html">Login</a>
+</div>
+
+<div style="height:72px;"></div>
+
+<!-- ═══ HERO / MAIN REGISTRATION SECTION ════════════════════════════════ -->
+<section class="section" style="padding-top:3.5rem;">
+  <div class="container">
+    <div class="register-layout" style="display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start;">
+
+      <!-- Left Column: Marketing & Benefits -->
+      <div class="fade-in">
+        <div style="display:inline-block;padding:0.35rem 1rem;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);border-radius:100px;font-size:0.75rem;font-weight:700;letter-spacing:1px;color:var(--accent-gold);text-transform:uppercase;margin-bottom:1.25rem;">
+          SALON OWNER PORTAL
+        </div>
+
+        <h1 style="font-size:2.75rem;font-weight:900;line-height:1.15;letter-spacing:-0.5px;margin-bottom:1.5rem;color:var(--text-100);">
+          Register Your Salon & Grow Your <span class="gradient-text">At-Home Revenue</span>
+        </h1>
+
+        <p style="font-size:1.05rem;line-height:1.75;color:var(--text-70);margin-bottom:2.25rem;">
+          Are you a salon or parlour owner? Join Glö Salon to receive orders from nearby clients looking for professional remote services. Manage your unisex catalog, set your service radius, and increase your daily bookings.
+        </p>
+
+        <!-- Feature Bullets -->
+        <div style="display:flex;flex-direction:column;gap:1.5rem;margin-bottom:2.5rem;">
+          
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);display:flex;align-items:center;justify-content:center;color:#10B981;font-weight:900;flex-shrink:0;">
+              ✓
+            </div>
+            <div>
+              <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:0.35rem;color:var(--text-100);">Instant Client Dispatch</h3>
+              <p style="font-size:0.925rem;color:var(--text-70);line-height:1.6;">
+                Receive orders directly from clients within your chosen 5km or 10km radius.
+              </p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);display:flex;align-items:center;justify-content:center;color:#10B981;font-weight:900;flex-shrink:0;">
+              ✓
+            </div>
+            <div>
+              <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:0.35rem;color:var(--text-100);">Flexible Unisex Service Toggles</h3>
+              <p style="font-size:0.925rem;color:var(--text-70);line-height:1.6;">
+                Easily toggle whether your salon offers Men Only, Women Only, or Unisex services.
+              </p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);display:flex;align-items:center;justify-content:center;color:#10B981;font-weight:900;flex-shrink:0;">
+              ✓
+            </div>
+            <div>
+              <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:0.35rem;color:var(--text-100);">Custom Pricing & Scheduling</h3>
+              <p style="font-size:0.925rem;color:var(--text-70);line-height:1.6;">
+                Set your own pricing structure based on hair length, product brands, and availability slots.
+              </p>
+            </div>
+          </div>
+
+          <!-- Commission Highlight Box -->
+          <div style="display:flex;gap:1rem;align-items:flex-start;padding:1.25rem;background:linear-gradient(135deg,rgba(212,175,55,0.08),rgba(139,92,246,0.08));border:1px solid rgba(212,175,55,0.25);border-radius:var(--radius-md);">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">
+              💎
+            </div>
+            <div>
+              <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:0.35rem;color:var(--accent-gold);">
+                10% Platform Commission
+              </h3>
+              <p style="font-size:0.9rem;color:var(--text-70);line-height:1.6;">
+                Keep <strong>90% of every booking payout</strong> directly into your account. Glö Salon charges only a flat <strong>10% commission per completed appointment</strong>. Zero monthly listing fees or hidden charges!
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Trust Stats -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:1.25rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-md);text-align:center;">
+          <div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--accent-gold);">500+</div>
+            <div style="font-size:0.75rem;color:var(--text-70);font-weight:600;margin-top:0.25rem;">Partner Salons</div>
+          </div>
+          <div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--emerald-400);">90%</div>
+            <div style="font-size:0.75rem;color:var(--text-70);font-weight:600;margin-top:0.25rem;">Partner Payout</div>
+          </div>
+          <div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--accent-pink);">4.9★</div>
+            <div style="font-size:0.75rem;color:var(--text-70);font-weight:600;margin-top:0.25rem;">Avg Rating</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Registration Form -->
+      <div class="fade-in">
+        <div class="glass-card" style="padding:2.25rem;border:1px solid rgba(255,255,255,0.1);" id="reg-form-card">
+          
+          <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:0.5rem;color:var(--text-100);">
+            Salon Partner Registration
+          </h2>
+          <p style="color:var(--text-70);font-size:0.875rem;margin-bottom:1.75rem;">
+            Fill in your salon details below to join our verified partner network.
+          </p>
+
+          <form id="salon-reg-form" onsubmit="submitRegistration(event)">
+            
+            <div class="form-group" style="margin-bottom:1.25rem;">
+              <label style="font-size:0.8rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-70);display:block;margin-bottom:0.5rem;">
+                SALON / PARLOUR NAME *
+              </label>
+              <input type="text" id="reg-salon-name" required placeholder="e.g., Elegance Unisex Salon & Spa" autocomplete="organization" style="width:100%;">
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label style="font-size:0.8rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-70);display:block;margin-bottom:0.5rem;">
+                  OWNER NAME *
+                </label>
+                <input type="text" id="reg-owner" required placeholder="Full Name" autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label style="font-size:0.8rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-70);display:block;margin-bottom:0.5rem;">
+                  PHONE NUMBER *
+                </label>
+                <input type="tel" id="reg-phone" required placeholder="+91 98765 43210" autocomplete="tel">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label style="font-size:0.8rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-70);display:block;margin-bottom:0.5rem;">
+                  SERVICE SPECIALTY *
+                </label>
+                <select id="reg-specialty" style="width:100%;">
+                  <option value="Unisex">Unisex (Men & Women)</option>
+                  <option value="Women Only">Women Only</option>
+                  <option value="Men Only">Men Only</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label style="font-size:0.8rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-70);display:block;margin-bottom:0.5rem;">
+                  SERVICE RADIUS *
+                </label>
+                <select id="reg-radius" style="width:100%;">
+                  <option value="5 km">Within 5 km</option>
+                  <option value="10 km">Within 10 km</option>
+                  <option value="15 km">Within 15 km</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1.25rem;">
+              <label style="font-size:0.8rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-70);display:block;margin-bottom:0.5rem;">
+                SALON ADDRESS / LOCALITY *
+              </label>
+              <input type="text" id="reg-address" required placeholder="Street address, City, Pincode" autocomplete="street-address" style="width:100%;">
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
+              <div class="form-group">
+                <label style="font-size:0.8rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-70);display:block;margin-bottom:0.5rem;">
+                  CITY *
+                </label>
+                <input type="text" id="reg-city" required placeholder="e.g. Bangalore" autocomplete="address-level2">
+              </div>
+              <div class="form-group">
+                <label style="font-size:0.8rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-70);display:block;margin-bottom:0.5rem;">
+                  PINCODE
+                </label>
+                <input type="text" id="reg-pincode" placeholder="560102" maxlength="6">
+              </div>
+            </div>
+
+            <!-- Commission Terms Notice Badge -->
+            <div style="padding:0.85rem 1rem;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);border-radius:var(--radius-sm);margin-bottom:1.5rem;font-size:0.825rem;color:var(--text-70);line-height:1.5;">
+              🤝 <strong>Platform Commission Agreement</strong>: By registering, you agree to Glö Salon's <strong>10% commission structure</strong> on completed client bookings.
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full btn-lg" id="reg-submit-btn" style="width:100%;padding:1rem;font-size:1.05rem;font-weight:700;">
+              Submit Salon Registration
+            </button>
+          </form>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="hidden glass-card" id="reg-success" style="padding:3rem;text-align:center;">
+          <div style="font-size:4rem;margin-bottom:1rem;animation:bounceIn 0.6s ease;">🎉</div>
+          <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:0.5rem;">Registration Submitted!</h2>
+          <p style="color:var(--text-70);margin:1rem 0;line-height:1.7;">
+            Thank you for registering with Glö Salon! Our team will verify your salon details and activate your partner portal within <strong>24 hours</strong>.
+          </p>
+          <div id="reg-salon-name-confirm" style="margin:1.5rem 0;padding:1.25rem;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);border-radius:var(--radius-md);font-weight:700;color:var(--accent-gold);"></div>
+          <div style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:var(--radius-sm);margin-bottom:2rem;font-size:0.875rem;color:var(--text-70);">
+            💡 <strong>10% Commission Terms Applied</strong>: You keep 90% of every completed order payout.
+          </div>
+          <a href="index.html" class="btn btn-primary">Return to Home</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer" style="margin-top:4rem;">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Glö Salon Platform · 10% Partner Commission Model</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  async function submitRegistration(e) {
+    e.preventDefault();
+    const btn = document.getElementById('reg-submit-btn');
+    btn.disabled = true; btn.textContent = 'Submitting…';
+
+    const payload = {
+      name:        document.getElementById('reg-salon-name').value.trim(),
+      ownerName:   document.getElementById('reg-owner').value.trim(),
+      phone:       document.getElementById('reg-phone').value.trim(),
+      specialty:   document.getElementById('reg-specialty').value,
+      serviceRadius: document.getElementById('reg-radius').value,
+      address:     document.getElementById('reg-address').value.trim(),
+      city:        document.getElementById('reg-city').value.trim(),
+      pincode:     document.getElementById('reg-pincode').value.trim()
+    };
+
+    try {
+      await SalonsAPI.register(payload);
+      document.getElementById('reg-form-card').classList.add('hidden');
+      const successEl = document.getElementById('reg-success');
+      successEl.classList.remove('hidden');
+      document.getElementById('reg-salon-name-confirm').textContent = `"${payload.name}" has been submitted for approval.`;
+      showToast('Salon registered successfully! 🎉', 'success');
+    } catch (err) {
+      showToast(err.message, 'error');
+      btn.disabled = false; btn.textContent = 'Submit Salon Registration';
+    }
+  }
+</script>
+</body>
+</html>

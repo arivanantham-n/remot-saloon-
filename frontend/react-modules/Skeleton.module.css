@@ -1,0 +1,227 @@
+/**
+ * Glö Salon — Industrial Skeleton Loading & Offline UX CSS Module
+ * Features:
+ * 1. Zero Cumulative Layout Shift (CLS) with exact box-model parity.
+ * 2. GPU-Accelerated Shimmer with transform: translate3d.
+ * 3. Strict prefers-reduced-motion compliance.
+ * 4. Design-system token harmony.
+ */
+
+/* ─── Skeleton Base Container (1:1 with .service-card / .glass-card) ─── */
+.skeletonCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg, 24px);
+  padding: 1.5rem;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 380px; /* Precise height of loaded service card */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  will-change: transform;
+}
+
+/* ─── GPU-Accelerated Shimmer Wave ─── */
+.shimmerEffect {
+  position: relative;
+  background: rgba(108, 60, 233, 0.06);
+  border-radius: var(--radius-sm, 12px);
+  overflow: hidden;
+}
+
+.shimmerEffect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%) translate3d(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translateX(100%) translate3d(0, 0, 0);
+  }
+}
+
+/* ─── Reduced Motion Compliance ─── */
+@media (prefers-reduced-motion: reduce) {
+  .shimmerEffect::after {
+    animation: none;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .skeletonCard {
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 0.6; }
+  }
+}
+
+/* ─── Structural Skeleton Blocks (Matching Real Content Dimensions) ─── */
+.imagePlaceholder {
+  width: 100%;
+  height: 180px;
+  border-radius: var(--radius-md, 16px);
+  margin-bottom: 1.25rem;
+}
+
+.categoryTag {
+  width: 70px;
+  height: 22px;
+  border-radius: 9999px;
+  margin-bottom: 0.75rem;
+}
+
+.titleLine {
+  width: 85%;
+  height: 24px;
+  margin-bottom: 0.5rem;
+}
+
+.descLineShort {
+  width: 60%;
+  height: 16px;
+  margin-bottom: 1.5rem;
+}
+
+.footerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.priceBlock {
+  width: 80px;
+  height: 26px;
+}
+
+.buttonBlock {
+  width: 100px;
+  height: 38px;
+  border-radius: 9999px;
+}
+
+/* ─── Offline Mode Banner & Badge ─── */
+.offlineBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: rgba(244, 185, 66, 0.12);
+  border: 1px solid rgba(244, 185, 66, 0.35);
+  border-radius: var(--radius-md, 16px);
+  color: #F4B942;
+  font-size: 0.875rem;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+  animation: slideDown 0.3s ease-out;
+}
+
+.offlineBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(244, 185, 66, 0.2);
+  color: #F4B942;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Bulletproof Error & Empty State ─── */
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-xl, 32px);
+  backdrop-filter: blur(12px);
+  max-width: 520px;
+  margin: 2rem auto;
+}
+
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 12px rgba(239, 68, 68, 0.2));
+}
+
+.errorTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text, #191622);
+  margin-bottom: 0.5rem;
+}
+
+.errorText {
+  font-size: 0.9rem;
+  color: var(--text-70, rgba(25, 22, 34, 0.7));
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.retryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  background: var(--primary, #6C3CE9);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: var(--transition, all 0.25s ease);
+  box-shadow: 0 4px 14px rgba(108, 60, 233, 0.25);
+}
+
+.retryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(108, 60, 233, 0.4);
+}
+
+.retryButton:active {
+  transform: translateY(0);
+}

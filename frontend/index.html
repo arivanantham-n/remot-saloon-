@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glö Salon — Professional Beauty & Grooming at Your Doorstep</title>
+  <meta name="description" content="Book premium salon services for men, women & unisex from verified professional salons. Hair, skin, wellness and more — at the salon or at your home.">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/next-step-arrows.css">
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══════════════════════════════════════════════════ -->
+<header class="nav glass-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">G</div>
+      <div>
+        <div class="nav-logo-text"><span>Gl</span><span>ö</span></div>
+        <span class="nav-logo-sub">Premium Salon</span>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="catalog.html">Services</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="booking.html">Book Now</a></li>
+      <li><a href="salon-register.html">For Salons</a></li>
+      <li><a href="my-bookings.html" id="nav-bookings-link" style="display:none">My Bookings</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="login.html" id="nav-login-link" class="btn btn-secondary btn-sm">Login</a>
+      <button id="nav-logout-btn" onclick="logout()" class="btn btn-secondary btn-sm" style="display:none">
+        <span id="nav-user-name"></span> · Logout
+      </button>
+      <div id="profile-icon-container" style="display:none">
+        <a href="profile.html" class="profile-container" title="My Profile">
+          <svg class="profile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
+      <a href="booking.html" class="btn btn-primary btn-sm">Book Now</a>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="catalog.html">Services</a>
+  <a href="booking.html">Book Now</a>
+  <a href="salon-register.html">For Salons</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="login.html">Login / Register</a>
+</div>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="parallax-layer parallax-layer-1"></div>
+  <div class="parallax-layer parallax-layer-2"></div>
+  <div class="parallax-layer parallax-layer-3"></div>
+
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left: copy -->
+      <div>
+        <div class="hero-badge">
+          <div class="dot-pulse"></div>
+          Professional Salon Services — Now Booking
+        </div>
+        <h1 class="hero-title">
+          Premium Salons,<br>
+          <span class="gradient-text">Delivered to You.</span>
+        </h1>
+        <p class="hero-sub">
+          Book expert hair, skin, and wellness services from verified salon professionals. Choose in-salon or at-home — for men, women & everyone.
+        </p>
+        <div class="hero-actions">
+          <a href="catalog.html" class="btn btn-primary btn-lg">Explore Services</a>
+          <a href="salon-register.html" class="btn btn-secondary btn-lg">Join as a Salon</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <span class="hero-stat-val">500+</span>
+            <span class="hero-stat-lbl">Verified Salons</span>
+          </div>
+          <div>
+            <span class="hero-stat-val">4.9★</span>
+            <span class="hero-stat-lbl">Avg. Rating</span>
+          </div>
+          <div>
+            <span class="hero-stat-val">12K+</span>
+            <span class="hero-stat-lbl">Bookings Done</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: glass card dispatch preview -->
+      <div class="hero-visual">
+        <div class="glass-card hero-card">
+          <div class="hero-card-tag">✨ Live Availability</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+            <h3 style="font-size:1.1rem;">Nearby Salons</h3>
+            <span class="badge badge-success"><div class="dot-pulse" style="width:6px;height:6px;background:var(--success)"></div> 3 Available</span>
+          </div>
+
+          <div class="glass-card salon-dispatch-item">
+            <div style="display:flex;align-items:center;">
+              <div class="salon-avatar" style="background:var(--primary-10);color:var(--primary);">LS</div>
+              <div>
+                <div style="font-weight:700;font-size:0.9rem;">Luxe Studio & Spa</div>
+                <div style="font-size:0.78rem;color:var(--text-70);">Unisex · 1.2 km · 4.9★</div>
+              </div>
+            </div>
+            <span class="badge badge-success">Open</span>
+          </div>
+
+          <div class="glass-card salon-dispatch-item">
+            <div style="display:flex;align-items:center;">
+              <div class="salon-avatar" style="background:var(--sec-20);color:var(--primary);">GH</div>
+              <div>
+                <div style="font-weight:700;font-size:0.9rem;">Glamour Hub</div>
+                <div style="font-size:0.78rem;color:var(--text-70);">Women · 2.5 km · 4.7★</div>
+              </div>
+            </div>
+            <span class="badge badge-warning">Busy</span>
+          </div>
+
+          <div class="glass-card salon-dispatch-item">
+            <div style="display:flex;align-items:center;">
+              <div class="salon-avatar" style="background:var(--accent-20);color:#b8740d;">ME</div>
+              <div>
+                <div style="font-weight:700;font-size:0.9rem;">Modern Edge</div>
+                <div style="font-size:0.78rem;color:var(--text-70);">Men · 3.0 km · 4.8★</div>
+              </div>
+            </div>
+            <span class="badge badge-success">Open</span>
+          </div>
+
+          <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:var(--text-70);">
+            <span>Auto-radius: 5 km</span>
+            <a href="booking.html" style="color:var(--primary);font-weight:700;">Book Now →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Next Step Arrow: Hero → Services ─── -->
+<div class="custom-section-arrow">
+  <a href="#services-section" class="custom-arrow-icon" title="Browse Services">↓</a>
+</div>
+
+<!-- ═══ SERVICE CATEGORIES ════════════════════════════════════════════ -->
+<section id="services-section" class="section" style="background:rgba(255,255,255,0.5);border-top:1px solid rgba(108,60,233,0.08);">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">Complete Service Catalog</span>
+      <h2 class="section-title">Services for <span class="gradient-text">Everyone</span></h2>
+      <p class="section-subtitle">From precision haircuts to luxury spa treatments — all by certified professionals.</p>
+    </div>
+
+    <div style="display:flex;justify-content:center;margin-bottom:2.5rem;" class="fade-in">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchHomeTab('women',this)">Women</button>
+        <button class="tab-btn" onclick="switchHomeTab('men',this)">Men</button>
+        <button class="tab-btn" onclick="switchHomeTab('unisex',this)">Unisex</button>
+      </div>
+    </div>
+
+    <div id="home-tab-women" class="tab-content active service-grid" id-content="women">
+      <div class="glass-card service-card fade-in visible" onclick="window.location='catalog.html?category=Women'">
+        <div class="service-card-badge badge-women">Women</div>
+        <div style="font-size:0.75rem;color:var(--text-50);margin-bottom:0.5rem;font-weight:600;">Hair Care · 45–90 mins</div>
+        <h3>Advanced Hair Styling & Treatments</h3>
+        <p>Detailed care, custom layers, blow-dry, global hair coloring, balayage, keratin, and deep conditioning spa treatments.</p>
+        <div class="service-card-footer">
+          <div class="service-price">
+            <span class="label">Starting from</span>
+            <span class="amount">₹599</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book</button>
+        </div>
+      </div>
+
+      <div class="glass-card service-card fade-in visible" onclick="window.location='catalog.html?category=Women'">
+        <div class="service-card-badge badge-women">Women</div>
+        <div style="font-size:0.75rem;color:var(--text-50);margin-bottom:0.5rem;font-weight:600;">Skin & Facial · 60 mins</div>
+        <h3>Luxury Facials & De-Tan</h3>
+        <p>Fruit cleanups, herbal facials, anti-aging gold & diamond treatments, hydrafacial, and full body bleach & de-tan.</p>
+        <div class="service-card-footer">
+          <div class="service-price">
+            <span class="label">Starting from</span>
+            <span class="amount">₹799</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book</button>
+        </div>
+      </div>
+
+      <div class="glass-card service-card fade-in visible" onclick="window.location='catalog.html?category=Women'">
+        <div class="service-card-badge badge-women">Women</div>
+        <div style="font-size:0.75rem;color:var(--text-50);margin-bottom:0.5rem;font-weight:600;">Waxing & Hair Removal · 30–60 mins</div>
+        <h3>Rica & Chocolate Waxing & Threading</h3>
+        <p>Full arms, full legs, underarms, bikini wax with painless Rica/Chocolate formulas, plus precise eyebrow threading.</p>
+        <div class="service-card-footer">
+          <div class="service-price">
+            <span class="label">Starting from</span>
+            <span class="amount">₹349</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book</button>
+        </div>
+      </div>
+
+      <div class="glass-card service-card fade-in visible" onclick="window.location='catalog.html?category=Women'">
+        <div class="service-card-badge badge-women">Women</div>
+        <div style="font-size:0.75rem;color:var(--text-50);margin-bottom:0.5rem;font-weight:600;">Hands & Feet · 45 mins</div>
+        <h3>Spa Manicure & Pedicure</h3>
+        <p>Classic mani-pedi, deep scrub, relaxing mask, massage, gel polish application, nail art, and nail extensions.</p>
+        <div class="service-card-footer">
+          <div class="service-price">
+            <span class="label">Starting from</span>
+            <span class="amount">₹699</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book</button>
+        </div>
+      </div>
+
+      <div class="glass-card service-card fade-in visible" onclick="window.location='catalog.html?category=Women'">
+        <div class="service-card-badge badge-women">Women</div>
+        <div style="font-size:0.75rem;color:var(--text-50);margin-bottom:0.5rem;font-weight:600;">Makeup & Styling · 90–120 mins</div>
+        <h3>Party & Bridal Makeup</h3>
+        <p>Professional party makeup, engagement makeup, bridal packages, saree & dupatta draping, and intricate bridal hair styling.</p>
+        <div class="service-card-footer">
+          <div class="service-price">
+            <span class="label">Starting from</span>
+            <span class="amount">₹1,499</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book</button>
+        </div>
+      </div>
+
+      <div class="glass-card service-card fade-in visible" onclick="window.location='catalog.html?category=Women'">
+        <div class="service-card-badge badge-women">Women</div>
+        <div style="font-size:0.75rem;color:var(--text-50);margin-bottom:0.5rem;font-weight:600;">Hair Care · 60–90 mins</div>
+        <h3>Keratin & Deep Moisture Hair Spa</h3>
+        <p>Intense keratin infusion, anti-frizz smoothening, argan oil deep hydration, and revitalizing scalp massage for silky hair.</p>
+        <div class="service-card-footer">
+          <div class="service-price">
+            <span class="label">Starting from</span>
+            <span class="amount">₹1,199</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html'">Book</button>
+        </div>
+      </div>
+    </div>
+    <div id="home-tab-men"   class="tab-content service-grid" id-content="men"></div>
+    <div id="home-tab-unisex"class="tab-content service-grid" id-content="unisex"></div>
+
+    <div class="text-center mt-8 fade-in">
+      <a href="catalog.html" class="btn btn-secondary">View All Services →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Next Step Arrow: Services → How It Works ─── -->
+<div class="custom-section-arrow">
+  <a href="#how-it-works-section" class="custom-arrow-icon" title="See How It Works">↓</a>
+</div>
+
+<!-- ═══ HOW IT WORKS ══════════════════════════════════════════════════ -->
+<section id="how-it-works-section" class="section">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">Simple Process</span>
+      <h2 class="section-title">How <span class="gradient-text">Glö Works</span></h2>
+      <p class="section-subtitle">Book in under 2 minutes. Get pampered in your comfort zone.</p>
+    </div>
+    <div class="steps-how fade-in">
+      <div class="step-how glass-card">
+        <div class="step-how-num">1</div>
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🔍</div>
+        <h4>Browse & Select</h4>
+        <p>Explore the full service catalog filtered for Women, Men, or Unisex. Pick what you love.</p>
+      </div>
+      <div class="step-how glass-card">
+        <div class="step-how-num">2</div>
+        <div style="font-size:2rem;margin-bottom:0.75rem;">📅</div>
+        <h4>Choose Date & Slot</h4>
+        <p>Pick a nearby salon, select a convenient date, and grab a real-time available time slot.</p>
+      </div>
+      <div class="step-how glass-card">
+        <div class="step-how-num">3</div>
+        <div style="font-size:2rem;margin-bottom:0.75rem;">✅</div>
+        <h4>Confirm Booking</h4>
+        <p>Review your order with live-calculated pricing. Confirm and get your Glö Booking ID instantly.</p>
+      </div>
+      <div class="step-how glass-card">
+        <div class="step-how-num">4</div>
+        <div style="font-size:2rem;margin-bottom:0.75rem;">💅</div>
+        <h4>Get Pampered</h4>
+        <p>Visit the salon or relax at home. Professionals arrive on time, fully equipped.</p>
+      </div>
+    </div>
+
+    <!-- Next Step CTA inside How It Works -->
+    <div class="custom-next-step-wrapper" style="margin-top:2rem;">
+      <a href="#why-glo-section" class="custom-next-step-btn">
+        <span>See Why Glö</span>
+        <span class="custom-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Next Step Arrow: How It Works → Why Glö ─── -->
+<div class="custom-section-arrow">
+  <a href="#why-glo-section" class="custom-arrow-icon" title="Why Choose Glö">↓</a>
+</div>
+
+<!-- ═══ WHY GLÖ ════════════════════════════════════════════════════════ -->
+<section id="why-glo-section" class="section" style="background:rgba(255,255,255,0.6);border-top:1px solid rgba(108,60,233,0.08);">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">Why Choose Us</span>
+      <h2 class="section-title">The <span class="gradient-text">Glö Difference</span></h2>
+    </div>
+    <div class="features-grid fade-in">
+      <div class="feature-card glass-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>100% Verified Professionals</h3>
+        <p>Every salon & stylist is background-checked, licensed, and reviewed by real clients.</p>
+      </div>
+      <div class="feature-card glass-card">
+        <div class="feature-icon">💎</div>
+        <h3>Transparent Pricing</h3>
+        <p>No surprises. Live price updates based on your hair length and product preference.</p>
+      </div>
+      <div class="feature-card glass-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Confirmation</h3>
+        <p>Real-time slot availability. Book a slot and get confirmed in seconds.</p>
+      </div>
+      <div class="feature-card glass-card">
+        <div class="feature-icon">⭐</div>
+        <h3>Verified Reviews</h3>
+        <p>Ratings from verified bookings only — so you always know what to expect.</p>
+      </div>
+    </div>
+
+    <!-- Next Step CTA inside Why Glö -->
+    <div class="custom-next-step-wrapper" style="margin-top:2rem;">
+      <a href="#cta-section" class="custom-next-step-btn">
+        <span>Ready to Book?</span>
+        <span class="custom-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Next Step Arrow: Why Glö → CTA ─── -->
+<div class="custom-section-arrow">
+  <a href="#cta-section" class="custom-arrow-icon" title="Book Now">↓</a>
+</div>
+
+<!-- ═══ CTA BANNER ════════════════════════════════════════════════════ -->
+<section id="cta-section" class="section">
+  <div class="container">
+    <div class="glass-card fade-in" style="padding:3rem;text-align:center;background:linear-gradient(135deg,rgba(108,60,233,0.08),rgba(167,139,250,0.05));">
+      <h2 class="section-title">Ready to <span class="gradient-text">Glow Up?</span></h2>
+      <p style="color:var(--text-70);margin-bottom:2rem;font-size:1.05rem;">Book your first appointment today — it takes less than 2 minutes.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="booking.html" class="btn btn-primary btn-lg">Book Now</a>
+        <a href="catalog.html" class="btn btn-secondary btn-lg">Browse Services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;flex-wrap:wrap;">
+      <div>
+        <div class="nav-logo" style="margin-bottom:1rem;">
+          <div class="nav-logo-icon">G</div>
+          <div>
+            <div class="nav-logo-text"><span>Gl</span><span>ö</span></div>
+            <span class="nav-logo-sub">Premium Salon</span>
+          </div>
+        </div>
+        <p style="font-size:0.875rem;color:rgba(255,255,255,0.5);line-height:1.7;max-width:260px;">
+          Connecting clients with premium salon professionals for an elevated grooming experience.
+        </p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <a href="catalog.html?category=Women">Women's Services</a>
+        <a href="catalog.html?category=Men">Men's Grooming</a>
+        <a href="catalog.html?category=Unisex">Unisex & Combos</a>
+        <a href="catalog.html">Full Catalog</a>
+      </div>
+      <div>
+        <h4>Platform</h4>
+        <a href="booking.html">Book Now</a>
+        <a href="my-bookings.html">My Bookings</a>
+        <a href="salon-register.html">Join as Salon</a>
+        <a href="admin.html">Admin</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Glö Salon Platform. Built with ✨ precision.</span>
+      <span>Made in India 🇮🇳</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script>
+  const servicesByCategory = { women: [], men: [], unisex: [] };
+
+  async function loadHomeServices() {
+    try {
+      const data = await ServicesAPI.getAll();
+      const services = data.services || [];
+      servicesByCategory.women = [];
+      servicesByCategory.men = [];
+      servicesByCategory.unisex = [];
+      services.forEach(s => {
+        const cat = s.category.toLowerCase();
+        if (servicesByCategory[cat]) servicesByCategory[cat].push(s);
+      });
+      renderHomeTab('women');
+    } catch (err) {
+      console.warn('Could not load services from API — default cards remain active.');
+    }
+  }
+
+  function renderHomeTab(tab) {
+    const container = document.getElementById(`home-tab-${tab}`);
+    if (!container) return;
+    const services = servicesByCategory[tab];
+    if (services && services.length > 0) {
+      container.innerHTML = services.map(s => serviceCard(s)).join('');
+    }
+    // Make sure newly inserted cards are visible
+    container.querySelectorAll('.fade-in').forEach((card, idx) => {
+      setTimeout(() => card.classList.add('visible'), idx * 30);
+    });
+  }
+
+  function serviceCard(s) {
+    const badgeClass = s.category === 'Women' ? 'badge-women' : s.category === 'Men' ? 'badge-men' : 'badge-unisex';
+    return `
+    <div class="glass-card service-card fade-in visible" onclick="window.location='service.html?id=${s._id}'">
+      <div class="service-card-badge ${badgeClass}">${s.category}</div>
+      <div style="font-size:0.75rem;color:var(--text-50);margin-bottom:0.5rem;font-weight:600;">${s.subcategory || ''} · ${s.duration || ''}</div>
+      <h3>${s.name}</h3>
+      <p>${s.description ? s.description.slice(0, 100) + '...' : ''}</p>
+      <div class="service-card-footer">
+        <div class="service-price">
+          <span class="label">Starting from</span>
+          <span class="amount">${formatINR(s.basePrice)}</span>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();window.location='booking.html?serviceId=${s._id}'">Book</button>
+      </div>
+    </div>`;
+  }
+
+  function switchHomeTab(tab, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('[id^="home-tab-"]').forEach(el => el.classList.remove('active'));
+    const target = document.getElementById(`home-tab-${tab}`);
+    target.classList.add('active');
+    renderHomeTab(tab);
+  }
+
+  loadHomeServices();
+</script>
+</body>
+</html>
